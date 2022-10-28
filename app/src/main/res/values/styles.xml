@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Prosa.Button" parent="Widget.MaterialComponents.Button">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+    </style>
+
+    <style name="Widget.Prosa.Button.Icon" parent="Widget.MaterialComponents.Button">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="elevation">0dp</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Prosa.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Prosa.Button.Cicle</item>
+    </style>
+
+
+    <style name="ShapeAppearance.Prosa.Button.Cicle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.Prosa.ImageView.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/image_corner_size</item>
+    </style>
+
+    <style name="ThemeOverlay.Prosa.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="dialogCornerRadius">@dimen/dialog_corner_rounded</item>
+        <item name="backgroundTint">?colorBackgroundFloating</item>
+        <item name="android:background">?colorBackgroundFloating</item>
+    </style>
+
+    <style name="ThemeOverlay.Prosa.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="backgroundTint">?colorBackgroundFloating</item>
+        <item name="android:background">?colorBackgroundFloating</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dialog_corner_rounded</item>
+    </style>
+
+    <style name="Widget.Prosa.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:background">@drawable/snackbar_bg</item>
+    </style>
+
+    <style name="MaterialSnackbarTextViewTheme" parent="@style/Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:maxLines">20</item>
+    </style>
+</resources>

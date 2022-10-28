@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:icon="@drawable/ic_color"
+        app:key="@string/customization_key"
+        app:title="@string/customization">
+
+        <ListPreference
+            android:title="@string/title_theme"
+            app:defaultValue="@string/system_theme"
+            app:entries="@array/themes"
+            app:entryValues="@array/themes_value"
+            app:iconSpaceReserved="false"
+            app:key="@string/theme_key"
+            app:summary="%s" />
+
+        <ListPreference
+            app:defaultValue="@string/system_accent"
+            app:entries="@array/accent"
+            app:entryValues="@array/accent_values"
+            app:iconSpaceReserved="false"
+            app:key="@string/accent_key"
+            app:summary="%s"
+            app:title="@string/title_accent" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_accessibility"
+        app:key="@string/accessibility_key"
+        app:title="@string/accessibility">
+
+        <com.rchyn.prosa.components.ChangeLanguagePreference
+            app:layout="@layout/item_row_change_language"
+            app:selectable="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <com.rchyn.prosa.components.LogoutPreference app:layout="@layout/item_row_logout" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/home_nav">
+
+    <fragment
+        android:id="@+id/login_nav"
+        android:name="com.rchyn.prosa.ui.fragments.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_nav_to_register_nav"
+            app:destination="@id/register_nav"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_to_login_nav"
+        app:destination="@id/login_nav"
+        app:popUpTo="@id/main_nav_graph"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/register_nav"
+        android:name="com.rchyn.prosa.ui.fragments.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/home_nav"
+        android:name="com.rchyn.prosa.ui.fragments.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_nav_to_detail_story_nav"
+            app:destination="@id/detail_story_nav"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favorite_nav"
+        android:name="com.rchyn.prosa.ui.fragments.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favorite_nav_to_detail_story_nav"
+            app:destination="@id/detail_story_nav"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/setting_nav"
+        android:name="com.rchyn.prosa.ui.fragments.setting.SettingFragment"
+        android:label="fragment_setting"/>
+    <fragment
+        android:id="@+id/add_story_nav"
+        android:name="com.rchyn.prosa.ui.fragments.story.AddStoryFragment"
+        android:label="fragment_add_story"
+        tools:layout="@layout/fragment_add_story" >
+        <argument
+            android:name="photo"
+            app:argType="java.io.File" />
+        <argument
+            android:name="rotate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="isFromFolder"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/detail_story_nav"
+        android:name="com.rchyn.prosa.ui.fragments.story.detail.DetailStoryFragment"
+        android:label="fragment_detail_story"
+        tools:layout="@layout/fragment_detail_story" >
+        <argument
+            android:name="story"
+            app:argType="com.rchyn.prosa.domain.model.stories.Story" />
+    </fragment>
+    <fragment
+        android:id="@+id/camerax_nav"
+        android:name="com.rchyn.prosa.ui.fragments.story.CameraxFragment"
+        android:label="fragment_camerax"
+        tools:layout="@layout/fragment_camerax" >
+        <action
+            android:id="@+id/action_camerax_nav_to_preview_story_nav"
+            app:destination="@id/preview_photo_nav"
+            app:launchSingleTop="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/preview_photo_nav"
+        android:name="com.rchyn.prosa.ui.fragments.story.PreviewPhotoFragment"
+        android:label="PreviewPhotoFragment"
+        tools:layout="@layout/fragment_preview_photo">
+        <action
+            android:id="@+id/action_preview_story_nav_to_add_story_nav"
+            app:destination="@id/add_story_nav"
+            app:enterAnim="@anim/nav_enter_anim"
+            app:exitAnim="@anim/nav_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_pop_enter_anim"
+            app:popExitAnim="@anim/nav_pop_exit_anim"
+            app:popUpTo="@id/preview_photo_nav"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="photo"
+            app:argType="java.io.File" />
+        <argument
+            android:name="rotate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="isFromFolder"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+</navigation>

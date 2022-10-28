@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.story.AddStoryFragment">
+
+    <include
+        android:id="@+id/layout_main_toolbar"
+        layout="@layout/layout_main_toolbar" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:layout_margin="@dimen/root_padding"
+        app:strokeColor="@android:color/darker_gray"
+        app:strokeWidth="1dp"
+        android:padding="1dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_main_toolbar"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Prosa.ImageView.Rounded"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_edt_description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/root_padding"
+        android:layout_marginHorizontal="@dimen/root_padding"
+        android:hint="@string/description"
+        app:endIconMode="clear_text"
+        app:endIconTint="?colorAccent"
+        app:hintAnimationEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="200"
+        app:layout_constraintTop_toBottomOf="@id/iv_photo">
+
+        <com.rchyn.prosa.components.EditText
+            android:id="@+id/edt_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:gravity="top|start"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxHeight="@dimen/description_maximum_height"
+            android:maxLength="200"
+            android:nestedScrollingEnabled="true"
+            android:paddingVertical="@dimen/edit_text_padding_vertical_description"
+            android:requiresFadingEdge="vertical"
+            android:minHeight="@dimen/description_minimum_height"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_upload_story"
+        style="@style/Widget.Prosa.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_edt_distance_margin"
+        android:layout_marginHorizontal="@dimen/root_padding"
+        android:text="@string/upload_story"
+        app:layout_constraintTop_toBottomOf="@id/layout_edt_description" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

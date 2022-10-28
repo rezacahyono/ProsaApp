@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name" translatable="false">Prosa</string>
+
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="setting">Setting</string>
+    <string name="new_story">New Story</string>
+
+
+    <string name="login">Login</string>
+    <string name="title_greet_login">Hi, Welcome to Prosa</string>
+    <string name="description_greet_login">We are glad to meet you here. Come on, tell your story by login in here.</string>
+    <string name="don_t_have_a_account">Don\'t have a account? </string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="field_cant_be_empty">%s can\'t be empty</string>
+    <string name="email_no_valid">Invalid email</string>
+    <string name="password_rules_length">Password must be at least 6 character long</string>
+
+    <string name="register">Register</string>
+    <string name="title_greet_register">Create a new account</string>
+    <string name="message_success_register">Success create a new account</string>
+    <string name="message_failed_register">Failed create a new account</string>
+    <string name="description_greet_register">Let’s create your account, and tell your story.</string>
+    <string name="have_a_account">Have a account? </string>
+    <string name="full_name">Full Name</string>
+
+    <string name="back">Back</string>
+
+    <string name="text_message_error_server">Sorry😔, there was an error from the server</string>
+    <string name="text_message_error_internet_connection">Can\'t reach the server, check your internet connection!</string>
+    <string name="text_message_error_load_list">couldn\'t refresh feed</string>
+    <string name="text_message_error_change_language">Sorry😔, there was an unexpected error</string>
+    <string name="text_message_error">Oops!😔 Something went wrong</string>
+    <string name="title_home_greet">Hello, 👋</string>
+    <string name="photo">Photo</string>
+
+    <string name="message_success_upload_story">Success upload story</string>
+    <string name="message_failed_upload_story">Failed upload story</string>
+
+    <string name="detail">Detail</string>
+    <string name="fav_description">Your favorite photo</string>
+
+    <string name="customization_key" translatable="false">customization</string>
+    <string name="customization">Customization</string>
+
+    <string name="title_theme">App Theme</string>
+    <string name="theme_key" translatable="false">theme</string>
+    <string name="system_theme" translatable="false">Default Theme</string>
+    <string name="dark_theme" translatable="false">Dark Theme</string>
+    <string name="light_theme" translatable="false">Light Theme</string>
+
+    <string name="title_accent">App Accent</string>
+    <string name="accent_key" translatable="false">accent</string>
+    <string name="system_accent" translatable="false">Default Accent</string>
+    <string name="peach_accent" translatable="false">Peach Accent</string>
+    <string name="beige_accent" translatable="false">Beige Accent</string>
+    <string name="blue_accent" translatable="false">Blue Accent</string>
+    <string name="purple_accent" translatable="false">Purple Accent</string>
+
+    <string name="accessibility_key" translatable="false">accessibility</string>
+    <string name="accessibility">Accessibility</string>
+    <string name="language">Language</string>
+
+    <string name="refresh_key" translatable="false">refresh</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="arrow_forward">Arrow forward</string>
+    <string name="logout">Logout</string>
+    <string name="open_image" translatable="false">Open image</string>
+    <string name="capture_camera" translatable="false">Capture camera</string>
+    <string name="flip_camera" translatable="false">Flip Camera</string>
+
+    <string name="missing_permission_camera">The camera permission was denied. Try again or activate the permission manually,
+    or the camera won\'t work!</string>
+    <string name="text_message_error_camera">Oops!😔 Camera something went wrong</string>
+    <string name="text_message_favorite_empty">Hmm, you don\'t have a favorite</string>
+    <string name="preview_photo">Preview photo</string>
+    <string name="cancel" translatable="false">Cancel</string>
+    <string name="accepted" translatable="false">Accepted</string>
+    <string name="description">Description</string>
+    <string name="upload_story">Upload Story</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="placeholder" translatable="false">Placeholder</string>
+
+    <string name="title_board_one">Welcome to Prosa</string>
+    <string name="description_board_one">Prosa is a simple app to share stories from the world. u can give ur interesting story to the world.</string>
+    <string name="title_board_two">Gorgeous, Simple, Customizable</string>
+    <string name="description_board_two">Prosa is made to simple and gorgeous by following the guide from the UI materials.</string>
+    <string name="next">Next</string>
+    <string name="first" translatable="false">first</string>
+
+</resources>

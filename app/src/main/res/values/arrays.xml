@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="themes">
+        <item>@string/system_theme</item>
+        <item>@string/dark_theme</item>
+        <item>@string/light_theme</item>
+    </string-array>
+
+    <string-array name="themes_value">
+        <item>@string/system_theme</item>
+        <item>@string/dark_theme</item>
+        <item>@string/light_theme</item>
+    </string-array>
+
+    <string-array name="accent">
+        <item>@string/system_accent</item>
+        <item>@string/peach_accent</item>
+        <item>@string/beige_accent</item>
+        <item>@string/blue_accent</item>
+        <item>@string/purple_accent</item>
+    </string-array>
+
+    <string-array name="accent_values">
+        <item>@string/system_accent</item>
+        <item>@string/peach_accent</item>
+        <item>@string/beige_accent</item>
+        <item>@string/blue_accent</item>
+        <item>@string/purple_accent</item>
+    </string-array>
+</resources>

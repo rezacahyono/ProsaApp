@@ -1,0 +1,96 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Prosa" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryContainer">@color/colorAccentTranslucent</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorSecondaryContainer">@color/colorAccentTranslucent</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="colorSurface">@color/colorSurface</item>
+
+        <item name="toolbarStyle">@style/Widget.Prosa.Toolbar</item>
+        <item name="appBarLayoutStyle">@style/Widget.Prosa.Appbar</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Prosa.MaterialAlertDialog</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.Prosa.AlertDialog</item>
+        <item name="snackbarStyle">@style/Widget.Prosa.Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/MaterialSnackbarTextViewTheme</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">?android:colorBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo_prosa</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <item name="postSplashScreenTheme">@style/Theme.Prosa</item>
+    </style>
+
+    <style name="Widget.Prosa.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Prosa.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
+        <item name="android:elevation">0dp</item>
+        <item name="navigationIconTint">@color/black</item>
+        <item name="titleMarginStart">@dimen/title_margin_toolbar</item>
+    </style>
+
+    <style name="Widget.Prosa.Appbar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Prosa.Appbar</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+
+    <style name="ThemeOverlay.Prosa.Toolbar" parent="">
+        <item name="colorPrimary">@color/colorBackground</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.Prosa.Appbar" parent="">
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.Prosa.Button" parent="">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorOnPrimary">?colorAccent</item>
+    </style>
+    
+    <style name="Theme.Prosa.Peach" parent="Theme.Prosa">
+        <item name="colorAccent">@color/peach</item>
+        <item name="colorPrimary">@color/peach</item>
+        <item name="colorSecondary">@color/peach</item>
+        <item name="colorPrimaryContainer">@color/peachTranslucent</item>
+        <item name="colorSecondaryContainer">@color/peachTranslucent</item>
+    </style>
+
+    <style name="Theme.Prosa.Beige" parent="Theme.Prosa">
+        <item name="colorAccent">@color/beige</item>
+        <item name="colorPrimary">@color/beige</item>
+        <item name="colorSecondary">@color/beige</item>
+        <item name="colorPrimaryContainer">@color/beigeTranslucent</item>
+        <item name="colorSecondaryContainer">@color/beigeTranslucent</item>
+    </style>
+
+    <style name="Theme.Prosa.Blue" parent="Theme.Prosa">
+        <item name="colorAccent">@color/blue</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorPrimaryContainer">@color/blueTranslucent</item>
+        <item name="colorSecondaryContainer">@color/blueTranslucent</item>
+    </style>
+    <style name="Theme.Prosa.Purple" parent="Theme.Prosa">
+        <item name="colorAccent">@color/purple</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorSecondary">@color/purple</item>
+        <item name="colorPrimaryContainer">@color/peachTranslucent</item>
+        <item name="colorSecondaryContainer">@color/peachTranslucent</item>
+    </style>
+
+
+
+</resources>

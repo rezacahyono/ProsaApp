@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="root_padding">20dp</dimen>
+
+    <dimen name="great_text_margin_top">64dp</dimen>
+    <dimen name="frame_margin_bottom">56dp</dimen>
+    <dimen name="bottom_app_elevation">0.1dp</dimen>
+
+    <dimen name="layout_edt_margin_top">44dp</dimen>
+    <dimen name="layout_edt_distance_margin">20dp</dimen>
+    <dimen name="edt_height">48dp</dimen>
+    <dimen name="text_bottom_margin_top">16dp</dimen>
+    <dimen name="image_button_padding">12dp</dimen>
+
+    <dimen name="recycler_margin">10dp</dimen>
+    <dimen name="image_height_size">344dp</dimen>
+    <dimen name="row_image_height_size">274dp</dimen>
+    <dimen name="image_corner_size">16dp</dimen>
+    <dimen name="button_icon_margin_size_item_row">16dp</dimen>
+    <dimen name="text_margin_size">16dp</dimen>
+    <dimen name="text_margin_horizontal_size">20dp</dimen>
+    <dimen name="text_margin_vertical_size">4dp</dimen>
+
+    <dimen name="board_title_margin_top">32dp</dimen>
+    <dimen name="dots_corner_radius">8dp</dimen>
+    <dimen name="dots_spacing">2dp</dimen>
+    <dimen name="button_next_padding">12dp</dimen>
+
+    <dimen name="title_margin_toolbar">24dp</dimen>
+
+    <dimen name="title_location_detail_margin_top">4dp</dimen>
+    <dimen name="image_detail_margin">16dp</dimen>
+    
+    <dimen name="setting_row_padding">16dp</dimen>
+    <dimen name="setting_text_title_size">16sp</dimen>
+
+    <dimen name="button_image_size_medium">48dp</dimen>
+    <dimen name="button_image_size_large">68dp</dimen>
+
+    <dimen name="description_minimum_height">150dp</dimen>
+    <dimen name="description_maximum_height">220dp</dimen>
+    <dimen name="edit_text_padding_vertical_description">16dp</dimen>
+    
+    <dimen name="dialog_corner_rounded">16dp</dimen>
+
+    <dimen name="padding_dialog">44dp</dimen>
+    <dimen name="image_placeholder_size">300dp</dimen>
+
+</resources>

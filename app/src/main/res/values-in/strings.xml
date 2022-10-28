@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="home">Home</string>
+    <string name="favorite">Favorit</string>
+    <string name="setting">Pengaturan</string>
+    <string name="new_story">Tambah Cerita</string>
+
+
+    <string name="login">Masuk</string>
+    <string name="title_greet_login">Hai, Selamat Datang di Prosa</string>
+    <string name="description_greet_login">Kami senang bertemu Anda di sini. Ayo, ceritakan kisah Anda dengan login di sini.</string>
+    <string name="don_t_have_a_account">Belum punya akun? </string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="field_cant_be_empty">%s tidak boleh kosong</string>
+    <string name="email_no_valid">Email tidak valid</string>
+    <string name="password_rules_length">Kata sandi harus setidaknya 6 karakter</string>
+
+    <string name="register">Daftar</string>
+    <string name="title_greet_register">Buat akun baru</string>
+    <string name="message_success_register">Sukses buat akun baru</string>
+    <string name="message_failed_register">Gagal membuat akun baru</string>
+    <string name="description_greet_register">Mari buat akun Anda, dan ceritakan kisah Anda.</string>
+    <string name="have_a_account">Sudah punya akun? </string>
+    <string name="full_name">Nama Panjang</string>
+
+    <string name="back">Kembali</string>
+    <string name="fav_description">Foto favorit kamu.</string>
+
+    <string name="text_message_error_server">Maaf😔, ada kesalahan dari server</string>
+    <string name="text_message_error_internet_connection">Tidak dapat menjangkau server, periksa koneksi internet Anda!</string>
+    <string name="text_message_error_load_list">Tidak dapat menyegarkan umpan</string>
+    <string name="text_message_error_change_language">Maaf😔, ada kesalahan tak terduga</string>
+    <string name="text_message_error">Ups!😔 Ada yang tidak beres</string>
+    <string name="title_home_greet">Hallo, 👋</string>
+    <string name="photo">Foto</string>
+
+    <string name="message_success_upload_story">Sukses mengupload cerita</string>
+    <string name="message_failed_upload_story">Gagal mengunggah cerita</string>
+
+    <string name="detail">Detail</string>
+
+    <string name="customization">Kustomisasi</string>
+
+    <string name="title_theme">Tema Aplikasi</string>
+
+    <string name="title_accent">Aksen Aplikasi</string>
+
+    <string name="accessibility">Aksesibilitas</string>
+    <string name="language">Bahasa</string>
+
+    <string name="refresh">Segarkan</string>
+
+    <string name="arrow_forward">Arrow forward</string>
+    <string name="logout">Keluar</string>
+
+    <string name="missing_permission_camera">Izin kamera ditolak. Coba lagi atau aktifkan izin secara manual, atau kamera tidak akan berfungsi!</string>
+    <string name="text_message_error_camera">Ups!😔 Kamera ada yang tidak beres</string>
+    <string name="text_message_favorite_empty">Hmm, kamu tidak punya favorit</string>
+    <string name="preview_photo">Pratinjau foto</string>
+    <string name="description">Keterangan</string>
+    <string name="upload_story">Unggah Cerita</string>
+    <string name="please_wait">Harap tunggu…</string>
+
+    <string name="title_board_one">Selamat datang di Prosa</string>
+    <string name="description_board_one">Prosa adalah aplikasi sederhana untuk berbagi cerita dari dunia. Anda dapat memberikan cerita menarik Anda kepada dunia.</string>
+    <string name="title_board_two">Cantik, Sederhana, Kustomisasi</string>
+    <string name="description_board_two">Prosa dibuat sederhana dan cantik dengan mengikuti panduan dari materi UI.</string>
+    <string name="next">Lanjut</string>
+</resources>

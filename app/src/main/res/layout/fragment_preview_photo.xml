@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.story.PreviewPhotoFragment">
+
+    <include
+        android:id="@+id/layout_main_toolbar"
+        layout="@layout/layout_main_toolbar" />
+
+    <ImageView
+        android:id="@+id/iv_photo_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/preview_photo"
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_main_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/frame_btn_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-20dp"
+        android:background="@color/blackAlpha42"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_cancel"
+        tools:ignore="NegativeMargin" />
+
+
+    <ImageButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="@dimen/button_image_size_medium"
+        android:layout_height="@dimen/button_image_size_medium"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/cancel"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_close"
+        android:layout_marginBottom="@dimen/root_padding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_accepted"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/btn_accepted"
+        android:layout_width="@dimen/button_image_size_medium"
+        android:layout_height="@dimen/button_image_size_medium"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/accepted"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@id/btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/btn_cancel"
+        app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_check"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
