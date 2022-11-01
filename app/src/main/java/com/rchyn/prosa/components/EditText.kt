@@ -74,7 +74,7 @@ class EditText : AppCompatEditText {
 
     private fun textValidatePassword(text: String) {
         val layout = getTextInputLayout()
-        if (text.length <= 6 && text.isNotEmpty()) {
+        if (text.length < 6 && text.isNotEmpty()) {
             layout?.let {
                 it.apply {
                     error = context.getString(R.string.password_rules_length)

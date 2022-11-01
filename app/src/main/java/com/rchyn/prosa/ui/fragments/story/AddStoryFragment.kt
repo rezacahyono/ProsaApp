@@ -18,6 +18,7 @@ import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentAddStoryBinding
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.utils.UiText
+import com.rchyn.prosa.utils.reduceFileImage
 import com.rchyn.prosa.utils.rotateBitmap
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -78,9 +79,10 @@ class AddStoryFragment : Fragment() {
 
         binding.btnUploadStory.setOnClickListener {
             loadingDialog = LoadingDialog(requireContext())
+            val photoUpload = reduceFileImage(photo)
             storyViewModel.addStory(
                 description.text.toString(),
-                photo
+                photoUpload
             ).observe(viewLifecycleOwner) { state ->
                 when {
                     state.isSuccess -> {
