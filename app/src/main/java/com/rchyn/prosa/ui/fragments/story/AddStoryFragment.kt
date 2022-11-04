@@ -18,6 +18,7 @@ import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentAddStoryBinding
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.utils.UiText
+import com.rchyn.prosa.utils.bitmapToFile
 import com.rchyn.prosa.utils.reduceFileImage
 import com.rchyn.prosa.utils.rotateBitmap
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,12 +64,16 @@ class AddStoryFragment : Fragment() {
         val photoFile = args.photo
         val rotate = args.rotate
         val result =
-            if (args.isFromFolder) BitmapFactory.decodeFile(photoFile.path) else rotateBitmap(
-                BitmapFactory.decodeFile(photoFile.path),
-                rotate
-            )
+            if (args.isFromFolder)
+                BitmapFactory.decodeFile(photoFile.path)
+            else
+                rotateBitmap(
+                    BitmapFactory.decodeFile(photoFile.path),
+                    rotate
+                )
 
-        setupUploadStory(photoFile)
+        val reducePhoto = reduceFileImage(result.bitmapToFile(photoFile))
+        setupUploadStory(reducePhoto)
         binding.ivPhoto.setImageBitmap(result)
     }
 
@@ -79,10 +84,9 @@ class AddStoryFragment : Fragment() {
 
         binding.btnUploadStory.setOnClickListener {
             loadingDialog = LoadingDialog(requireContext())
-            val photoUpload = reduceFileImage(photo)
             storyViewModel.addStory(
                 description.text.toString(),
-                photoUpload
+                photo
             ).observe(viewLifecycleOwner) { state ->
                 when {
                     state.isSuccess -> {
@@ -119,7 +123,10 @@ class AddStoryFragment : Fragment() {
             val descriptionText = it.toString()
             if (descriptionText.isBlank()) {
                 binding.layoutEdtDescription.apply {
-                    error = getString(R.string.field_cant_be_empty)
+                    error = getString(
+                        R.string.field_cant_be_empty,
+                        getString(R.string.description)
+                    )
                     isErrorEnabled = true
                 }
                 descriptionCorrect = false

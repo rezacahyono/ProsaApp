@@ -35,7 +35,7 @@
         android:id="@+id/home_nav"
         android:name="com.rchyn.prosa.ui.fragments.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_nav_to_detail_story_nav"
             app:destination="@id/detail_story_nav"
@@ -49,7 +49,7 @@
         android:id="@+id/favorite_nav"
         android:name="com.rchyn.prosa.ui.fragments.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
+        tools:layout="@layout/fragment_favorite">
         <action
             android:id="@+id/action_favorite_nav_to_detail_story_nav"
             app:destination="@id/detail_story_nav"
@@ -62,29 +62,29 @@
     <fragment
         android:id="@+id/setting_nav"
         android:name="com.rchyn.prosa.ui.fragments.setting.SettingFragment"
-        android:label="fragment_setting"/>
+        android:label="fragment_setting" />
     <fragment
         android:id="@+id/add_story_nav"
         android:name="com.rchyn.prosa.ui.fragments.story.AddStoryFragment"
         android:label="fragment_add_story"
-        tools:layout="@layout/fragment_add_story" >
+        tools:layout="@layout/fragment_add_story">
         <argument
             android:name="photo"
             app:argType="java.io.File" />
         <argument
             android:name="rotate"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <argument
             android:name="isFromFolder"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/detail_story_nav"
         android:name="com.rchyn.prosa.ui.fragments.story.detail.DetailStoryFragment"
         android:label="fragment_detail_story"
-        tools:layout="@layout/fragment_detail_story" >
+        tools:layout="@layout/fragment_detail_story">
         <argument
             android:name="story"
             app:argType="com.rchyn.prosa.domain.model.stories.Story" />
@@ -93,11 +93,10 @@
         android:id="@+id/camerax_nav"
         android:name="com.rchyn.prosa.ui.fragments.story.CameraxFragment"
         android:label="fragment_camerax"
-        tools:layout="@layout/fragment_camerax" >
+        tools:layout="@layout/fragment_camerax">
         <action
             android:id="@+id/action_camerax_nav_to_preview_story_nav"
-            app:destination="@id/preview_photo_nav"
-            app:launchSingleTop="false" />
+            app:destination="@id/preview_photo_nav" />
     </fragment>
     <fragment
         android:id="@+id/preview_photo_nav"
@@ -105,11 +104,10 @@
         android:label="PreviewPhotoFragment"
         tools:layout="@layout/fragment_preview_photo">
         <action
-            android:id="@+id/action_preview_story_nav_to_add_story_nav"
+            android:id="@+id/action_preview_photo_nav_to_add_story_nav"
             app:destination="@id/add_story_nav"
             app:enterAnim="@anim/nav_enter_anim"
             app:exitAnim="@anim/nav_exit_anim"
-            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_pop_enter_anim"
             app:popExitAnim="@anim/nav_pop_exit_anim"
             app:popUpTo="@id/preview_photo_nav"
@@ -119,11 +117,11 @@
             app:argType="java.io.File" />
         <argument
             android:name="rotate"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <argument
             android:name="isFromFolder"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
 </navigation>

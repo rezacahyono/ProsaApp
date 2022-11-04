@@ -71,7 +71,7 @@ class PreviewPhotoFragment : Fragment() {
     }
 
     private fun navigateToAddStory(photo: File, rotate: Boolean, isFromFolder: Boolean) {
-        val direction = PreviewPhotoFragmentDirections.actionPreviewStoryNavToAddStoryNav(
+        val direction = PreviewPhotoFragmentDirections.actionPreviewPhotoNavToAddStoryNav(
             photo,
             rotate,
             isFromFolder

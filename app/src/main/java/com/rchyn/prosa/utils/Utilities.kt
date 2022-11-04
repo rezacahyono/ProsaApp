@@ -173,6 +173,31 @@ fun reduceFileImage(file: File): File {
     return file
 }
 
+fun Bitmap.bitmapToFile(file: File): File {
+    this.compress(Bitmap.CompressFormat.JPEG,100, FileOutputStream(file))
+    return file
+
+//
+//    var file: File? = null
+//    return try {
+//        file = File(Environment.getExternalStorageDirectory().toString() + File.separator + fileNameToSave)
+//        file.createNewFile()
+//
+//        val bos = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos) // YOU can also save it in JPEG
+//        val bitmapData = bos.toByteArray()
+//
+//        val fos = FileOutputStream(file)
+//        fos.write(bitmapData)
+//        fos.flush()
+//        fos.close()
+//        file
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//        file // it will return null
+//    }
+}
+
 fun View.show() {
     visibility = View.VISIBLE
 }
