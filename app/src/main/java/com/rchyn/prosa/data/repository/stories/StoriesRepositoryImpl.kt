@@ -6,6 +6,7 @@ import com.rchyn.prosa.data.local.data_store.UserPrefDataStore
 import com.rchyn.prosa.data.local.entity.StoryEntity
 import com.rchyn.prosa.data.remote.data_source.stories.StoriesRemoteDataSource
 import com.rchyn.prosa.data.toStory
+import com.rchyn.prosa.data.toStoryEntity
 import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.domain.repository.stories.StoriesRepository
 import com.rchyn.prosa.utils.*
@@ -36,7 +37,7 @@ class StoriesRepositoryImpl @Inject constructor(
         initialKey = null
     ).flow.map { pagingData ->
         pagingData.map { it.toStory() }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getStoriesFav(): Flow<List<Story>> =
         storiesLocalDataSource.getStoriesFav().map { stories ->
