@@ -73,7 +73,10 @@ class DetailStoryFragment : Fragment() {
                     homeViewMode.setStoryFavorite(story)
                 }
             }
-            ivPhoto.load(story.photo)
+            ivPhoto.load(story.photo) {
+                crossfade(true)
+                placeholder(R.drawable.ic_placeholder_image)
+            }
         }
     }
 

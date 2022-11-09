@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStore
 import androidx.datastore.dataStoreFile
 import androidx.room.Room
+import com.rchyn.prosa.BuildConfig
 import com.rchyn.prosa.data.local.data_source.StoryLocalDataSource
 import com.rchyn.prosa.data.local.data_store.UserPrefDataStore
 import com.rchyn.prosa.data.local.room.RemoteKeysDao
@@ -44,7 +45,12 @@ object AppModule {
     @Singleton
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        if (BuildConfig.DEBUG){
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        }else {
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
+
 
     @Singleton
     @Provides

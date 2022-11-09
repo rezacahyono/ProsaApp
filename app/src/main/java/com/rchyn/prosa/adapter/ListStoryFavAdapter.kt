@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.ItemRowStoryBinding
 import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.utils.convertTimeToLocal
@@ -29,7 +30,10 @@ class ListStoryFavAdapter(
                     tvUserName.text = story.name
                     tvDate.text = story.date.convertTimeToLocal()
                 }
-                ivPhoto.load(story.photo)
+                ivPhoto.load(story.photo) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_placeholder_image)
+                }
 
                 root.setOnClickListener {
                     onClickItem(story)
