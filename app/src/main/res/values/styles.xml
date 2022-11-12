@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Widget.Prosa.Button" parent="Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
@@ -57,5 +58,12 @@
     <style name="MaterialSnackbarTextViewTheme" parent="@style/Widget.MaterialComponents.Snackbar.TextView">
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:maxLines">20</item>
+    </style>
+
+    <style name="Widget.Prosa.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="queryHint">@string/hint_search_location</item>
+        <item name="queryBackground">@null</item>
+        <item name="iconifiedByDefault">false</item>
+        <item name="android:background">@drawable/shape_bg_search</item>
     </style>
 </resources>

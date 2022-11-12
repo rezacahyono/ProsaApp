@@ -1,57 +1,58 @@
-package com.rchyn.prosa.ui.fragments.story.detail
+package com.rchyn.prosa.ui.fragments.map.detail
 
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.view.WindowManager
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rchyn.prosa.R
-import com.rchyn.prosa.databinding.FragmentDetailStoryBinding
+import com.rchyn.prosa.databinding.DialogBottomStoryBinding
 import com.rchyn.prosa.domain.model.stories.Story
-import com.rchyn.prosa.ui.fragments.home.HomeViewModel
 import com.rchyn.prosa.utils.convertTimeToLocal
 import com.rchyn.prosa.utils.getLocationName
-import dagger.hilt.android.AndroidEntryPoint
+import com.rchyn.prosa.utils.hide
 import kotlinx.coroutines.launch
 
+class StoryBottomSheetDialog : BottomSheetDialogFragment() {
+    private var _binding: DialogBottomStoryBinding? = null
+    private val binding get() = _binding as DialogBottomStoryBinding
 
-@AndroidEntryPoint
-class DetailStoryFragment : Fragment() {
+    private val args: StoryBottomSheetDialogArgs by navArgs()
 
-    private var _binding: FragmentDetailStoryBinding? = null
-    private val binding get() = _binding as FragmentDetailStoryBinding
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener { dialogInterface ->
 
-    private val args: DetailStoryFragmentArgs by navArgs()
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let {
+                setupFullHeight(it)
+            }
+        }
+        return dialog
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailStoryBinding.inflate(layoutInflater, container, false)
-        binding.layoutMainToolbar.toolbar.apply {
-            title = getString(R.string.detail)
-            navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back)
-        }
+        _binding = DialogBottomStoryBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.layoutMainToolbar.toolbar.setNavigationOnClickListener {
-            navigateBack(findNavController())
-        }
 
         val story = args.story
         setupDataDetail(story)
@@ -62,6 +63,7 @@ class DetailStoryFragment : Fragment() {
             tvUserName.text = story.name
             tvDate.text = story.date.convertTimeToLocal()
             if (story.lat != null && story.lon != null) {
+
                 lifecycleScope.launch {
                     tvLocation.text = getLocationName(
                         this,
@@ -70,18 +72,14 @@ class DetailStoryFragment : Fragment() {
                         story.lon
                     )
                 }
+
             } else {
                 tvLocation.isVisible = false
             }
             tvDescription.text = story.description
 
+            btnFavorite.hide()
 
-            btnFavorite.isChecked = story.isFavorite
-            btnFavorite.apply {
-                setOnClickListener {
-                    homeViewModel.setStoryFavorite(story)
-                }
-            }
             ivPhoto.load(story.photo) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder_image)
@@ -89,15 +87,14 @@ class DetailStoryFragment : Fragment() {
         }
     }
 
-
-    private fun navigateBack(navController: NavController) {
-        navController.navigateUp()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding
     }
 
-
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
+    }
 }

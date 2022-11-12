@@ -6,20 +6,23 @@ import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.utils.UiText
 import kotlinx.coroutines.flow.Flow
 import java.io.File
+import com.rchyn.prosa.utils.Result
 
 interface StoriesRepository {
 
     fun getAllStories(): Flow<PagingData<Story>>
 
-    fun getStoriesFav(): Flow<List<Story>>
+    fun getStoriesWithLocation(): Flow<Result<List<Story>>>
+
+    fun getStoriesFav(): Flow<Result<List<Story>>>
 
     suspend fun setStoryFavorite(storyEntity: StoryEntity, isFavorite: Boolean)
 
     fun addStory(
         description: String,
         photo: File,
-        lat: Float?,
-        lan: Float?
+        lat: Double?,
+        lan: Double?
     ): Flow<Map<Boolean, UiText>>
 
 }

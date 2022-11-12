@@ -36,7 +36,7 @@ class PreviewPhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.layoutMainToolbar.toolbar.setNavigationOnClickListener {
-            navigateToUp()
+            navigateToBack()
         }
 
         val photoFile = args.photo
@@ -54,7 +54,7 @@ class PreviewPhotoFragment : Fragment() {
         binding.apply {
             ivPhotoPreview.setImageBitmap(photo)
             btnCancel.setOnClickListener {
-                navigateToUp()
+                navigateToBack()
             }
             btnAccepted.setOnClickListener {
                 navigateToAddStory(
@@ -66,7 +66,7 @@ class PreviewPhotoFragment : Fragment() {
         }
     }
 
-    private fun navigateToUp() {
+    private fun navigateToBack() {
         findNavController().navigateUp()
     }
 

@@ -1,14 +1,16 @@
 package com.rchyn.prosa.ui.fragments.story
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,11 +19,9 @@ import com.rchyn.prosa.R
 import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentAddStoryBinding
 import com.rchyn.prosa.ui.activities.MainActivity
-import com.rchyn.prosa.utils.UiText
-import com.rchyn.prosa.utils.bitmapToFile
-import com.rchyn.prosa.utils.reduceFileImage
-import com.rchyn.prosa.utils.rotateBitmap
+import com.rchyn.prosa.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 
 @AndroidEntryPoint
@@ -30,16 +30,30 @@ class AddStoryFragment : Fragment() {
     private var _binding: FragmentAddStoryBinding? = null
     private val binding get() = _binding as FragmentAddStoryBinding
 
-    private val storyViewModel: StoryViewModel by viewModels()
+    private val storyViewModel: StoryViewModel by activityViewModels()
 
     private val args: AddStoryFragmentArgs by navArgs()
 
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var act: MainActivity
+    private lateinit var photoFile: File
+    private lateinit var result: Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         act = activity as MainActivity
+
+        photoFile = args.photo
+        val rotate = args.rotate
+        result =
+            if (args.isFromFolder)
+                BitmapFactory.decodeFile(photoFile.path)
+            else
+                rotateBitmap(
+                    BitmapFactory.decodeFile(photoFile.path),
+                    rotate
+                )
+
     }
 
     override fun onCreateView(
@@ -61,20 +75,16 @@ class AddStoryFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val photoFile = args.photo
-        val rotate = args.rotate
-        val result =
-            if (args.isFromFolder)
-                BitmapFactory.decodeFile(photoFile.path)
-            else
-                rotateBitmap(
-                    BitmapFactory.decodeFile(photoFile.path),
-                    rotate
-                )
-
         val reducePhoto = reduceFileImage(result.bitmapToFile(photoFile))
         setupUploadStory(reducePhoto)
-        binding.ivPhoto.setImageBitmap(result)
+
+        binding.apply {
+            ivPhoto.setImageBitmap(result)
+
+            edtLocation.setOnClickListener {
+                navigateToSearchLocation()
+            }
+        }
     }
 
     private fun setupUploadStory(photo: File) {
@@ -82,11 +92,25 @@ class AddStoryFragment : Fragment() {
 
         val description = binding.edtDescription
 
+        storyViewModel.myLocation.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                binding.edtLocation.setText(
+                    getLocationName(
+                        this,
+                        requireContext(),
+                        it.latitude,
+                        it.longitude
+                    )
+                )
+            }
+
+        }
+
         binding.btnUploadStory.setOnClickListener {
             loadingDialog = LoadingDialog(requireContext())
             storyViewModel.addStory(
                 description.text.toString(),
-                photo
+                photo,
             ).observe(viewLifecycleOwner) { state ->
                 when {
                     state.isSuccess -> {
@@ -119,9 +143,8 @@ class AddStoryFragment : Fragment() {
 
         var descriptionCorrect: Boolean
 
-        description.doAfterTextChanged {
-            val descriptionText = it.toString()
-            if (descriptionText.isBlank()) {
+        description.doOnTextChanged { text, _, before, count ->
+            if (text.isNullOrBlank() && count == 0 && before == 1) {
                 binding.layoutEdtDescription.apply {
                     error = getString(
                         R.string.field_cant_be_empty,
@@ -138,6 +161,7 @@ class AddStoryFragment : Fragment() {
                 descriptionCorrect = true
             }
             binding.btnUploadStory.isEnabled = descriptionCorrect
+
         }
     }
 
@@ -147,6 +171,11 @@ class AddStoryFragment : Fragment() {
             .setLaunchSingleTop(true)
             .build()
         findNavController().navigate(R.id.home_nav, null, navOptions)
+    }
+
+    private fun navigateToSearchLocation() {
+        val direction = AddStoryFragmentDirections.actionAddStoryNavToSearchLocationNav()
+        findNavController().navigate(direction)
     }
 
     override fun onDestroyView() {

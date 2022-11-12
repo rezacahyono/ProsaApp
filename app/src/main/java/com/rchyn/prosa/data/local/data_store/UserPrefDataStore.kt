@@ -31,16 +31,19 @@ class UserPrefDataStore @Inject constructor(
         override val defaultValue: User
             get() = User()
 
-        override suspend fun readFrom(input: InputStream): User {
-            return try {
-                Json.decodeFromString(
-                    deserializer = User.serializer(), string = input.readBytes().decodeToString()
-                )
-            } catch (e: SerializationException) {
-                e.printStackTrace()
-                defaultValue
+        override suspend fun readFrom(input: InputStream): User =
+            withContext(Dispatchers.IO) {
+                try {
+                    Json.decodeFromString(
+                        deserializer = User.serializer(),
+                        string = input.readBytes().decodeToString()
+                    )
+                } catch (e: SerializationException) {
+                    e.printStackTrace()
+                    defaultValue
+                }
             }
-        }
+
 
         override suspend fun writeTo(t: User, output: OutputStream) {
             withContext(Dispatchers.IO) {

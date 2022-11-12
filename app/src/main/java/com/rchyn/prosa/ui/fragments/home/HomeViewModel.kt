@@ -1,15 +1,16 @@
 package com.rchyn.prosa.ui.fragments.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.domain.use_case.stories.GetAllStoriesUseCase
 import com.rchyn.prosa.domain.use_case.stories.SetStoryFavoriteUseCase
 import com.rchyn.prosa.domain.use_case.user.AuthUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,13 +23,8 @@ class HomeViewModel @Inject constructor(
 
     val userPref = authUserUseCase.userPref.asLiveData()
 
-    val listStories: LiveData<HomeUiState> =
-        getAllStoriesUseCase()
-            .cachedIn(viewModelScope)
-            .map { HomeUiState(listStory = it) }
-            .onStart { emit(HomeUiState(isLoading = true)) }
-            .catch { emit(HomeUiState(isError = true)) }
-            .asLiveData()
+    val storiesState: LiveData<PagingData<Story>> =
+        getAllStoriesUseCase().cachedIn(viewModelScope).asLiveData()
 
     fun setStoryFavorite(story: Story) {
         viewModelScope.launch {

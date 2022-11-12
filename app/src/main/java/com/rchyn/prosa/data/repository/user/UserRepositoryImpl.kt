@@ -6,6 +6,7 @@ import com.rchyn.prosa.domain.model.user.User
 import com.rchyn.prosa.domain.repository.user.UserRepository
 import com.rchyn.prosa.utils.ApiResult
 import com.rchyn.prosa.utils.UiText
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,14 +16,15 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val userPrefDataStore: UserPrefDataStore
+    private val userPrefDataStore: UserPrefDataStore,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : UserRepository {
 
     override val userPref: Flow<User>
-        get() = userPrefDataStore.userPref
+        get() = userPrefDataStore.userPref.flowOn(ioDispatcher)
 
     override suspend fun setUserPref(user: User) {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             userPrefDataStore.setUserPref(user)
         }
     }
@@ -43,7 +45,7 @@ class UserRepositoryImpl @Inject constructor(
                 emit(result)
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
     override fun register(
         name: String, email: String, password: String
@@ -61,6 +63,6 @@ class UserRepositoryImpl @Inject constructor(
                 emit(result)
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
 }

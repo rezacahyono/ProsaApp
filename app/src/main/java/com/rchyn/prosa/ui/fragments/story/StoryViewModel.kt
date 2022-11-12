@@ -1,6 +1,8 @@
 package com.rchyn.prosa.ui.fragments.story
 
+import android.location.Location
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.rchyn.prosa.R
@@ -18,11 +20,19 @@ class StoryViewModel @Inject constructor(
     private val addStoriesUseCase: AddStoriesUseCase
 ) : ViewModel() {
 
+    private val _myLocation: MutableLiveData<Location> = MutableLiveData()
+    val myLocation: LiveData<Location> = _myLocation
+
     fun addStory(
         description: String,
-        photo: File
+        photo: File,
     ): LiveData<StoryUIState> {
-        return addStoriesUseCase(description, photo)
+        return addStoriesUseCase(
+            description,
+            photo,
+            myLocation.value?.latitude,
+            myLocation.value?.longitude
+        )
             .map {
                 StoryUIState(
                     isSuccess = it.keys.first(),
@@ -39,5 +49,9 @@ class StoryViewModel @Inject constructor(
                     )
                 )
             }.asLiveData()
+    }
+
+    fun setMyLocation(location: Location) {
+        _myLocation.value = location
     }
 }

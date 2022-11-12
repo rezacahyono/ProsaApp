@@ -3,12 +3,18 @@ package com.rchyn.prosa.utils
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
+import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -16,8 +22,17 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.rchyn.prosa.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -26,6 +41,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -64,6 +80,11 @@ fun Context.resolveColorAttr(@AttrRes colorAttr: Int): Int {
     return ContextCompat.getColor(this, colorRes)
 }
 
+fun Context.isDarkThemeOn(): Boolean {
+    return resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+}
+
 fun Context.resolveThemeAttr(@AttrRes attrRes: Int): TypedValue {
     val typedValue = TypedValue()
     theme.resolveAttribute(attrRes, typedValue, true)
@@ -79,20 +100,36 @@ fun String.convertTimeToLocal(): String {
     return date?.let { simpleDateFormat.format(it) } ?: ""
 }
 
-@Suppress("DEPRECATION")
-fun getLocationName(context: Context, latitude: Double, longitude: Double): String {
-    val localeId = Locale("id", "ID")
-    val geocoder = Geocoder(context, localeId)
 
-    val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-    return "${addresses?.get(0)?.locality} - ${addresses?.get(0)?.countryName}"
+suspend fun getLocationName(
+    coroutineScope: CoroutineScope,
+    context: Context,
+    latitude: Double,
+    longitude: Double
+): String {
+    return try {
+        var addresses: List<Address>
+        val deferred = coroutineScope.async(Dispatchers.IO) {
+            val localeId = Locale("id", "ID")
+            val geocoder = Geocoder(context, localeId)
+            addresses = geocoder.getFromLocation(latitude, longitude, 1) as List<Address>
+            return@async addresses
+        }
+        withContext(Dispatchers.Main) {
+            val data = deferred.await()
+            "${data[0].locality} - ${data[0].countryName}"
+        }
+    } catch (e: IOException) {
+        Log.e("TAG", "${e.message}")
+        context.getString(R.string.text_message_location_not_found)
+    }
 }
 
 fun String.createPartFromString(): RequestBody {
     return this.toRequestBody("text/plain".toMediaType())
 }
 
-fun Float.createPartFromFloat(): RequestBody {
+fun Double.createPartFromDouble(): RequestBody {
     return this.toString().toRequestBody("text/plain".toMediaType())
 }
 
@@ -105,6 +142,12 @@ fun hideSoftKeyboard(context: Context, view: View) {
     val inputMethodManager =
         context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun showSoftKeyboard(context: Context, view: View) {
+    val inputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(view, 0)
 }
 
 fun createCustomTempFile(context: Context): File {
@@ -174,28 +217,27 @@ fun reduceFileImage(file: File): File {
 }
 
 fun Bitmap.bitmapToFile(file: File): File {
-    this.compress(Bitmap.CompressFormat.JPEG,100, FileOutputStream(file))
+    this.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(file))
     return file
+}
 
-//
-//    var file: File? = null
-//    return try {
-//        file = File(Environment.getExternalStorageDirectory().toString() + File.separator + fileNameToSave)
-//        file.createNewFile()
-//
-//        val bos = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos) // YOU can also save it in JPEG
-//        val bitmapData = bos.toByteArray()
-//
-//        val fos = FileOutputStream(file)
-//        fos.write(bitmapData)
-//        fos.flush()
-//        fos.close()
-//        file
-//    } catch (e: Exception) {
-//        e.printStackTrace()
-//        file // it will return null
-//    }
+fun vectorToBitmap(
+    @DrawableRes id: Int,
+    @ColorInt color: Int,
+    res: Resources
+): BitmapDescriptor {
+    val vectorDrawable = ResourcesCompat.getDrawable(res, id, null)
+        ?: return BitmapDescriptorFactory.defaultMarker()
+    val bitmap = Bitmap.createBitmap(
+        vectorDrawable.intrinsicWidth,
+        vectorDrawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+    val canvas = Canvas(bitmap)
+    vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+    DrawableCompat.setTint(vectorDrawable, color)
+    vectorDrawable.draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
 
 fun View.show() {

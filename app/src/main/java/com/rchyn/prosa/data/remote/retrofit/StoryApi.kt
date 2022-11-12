@@ -28,9 +28,10 @@ interface StoryApi {
     @GET("stories")
     suspend fun getAllStories(
         @Header("Authorization") bearerToken: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): ResponseStories
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null,
+        @Query("location") location: Int? = null
+    ): Response<ResponseStories>
 
     @Multipart
     @POST("stories")

@@ -6,25 +6,28 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rchyn.prosa.databinding.DialogLoadingBinding
 
-class LoadingDialog(private val context: Context) {
+class LoadingDialog(context: Context) {
 
     private var _binding: DialogLoadingBinding? = null
     private val binding get() = _binding as DialogLoadingBinding
 
-    private lateinit var dialog: AlertDialog
+    private val dialog: AlertDialog
 
-    fun startLoading() {
+    init {
         _binding = DialogLoadingBinding.inflate(LayoutInflater.from(context))
         val builder = MaterialAlertDialogBuilder(context)
             .setView(binding.root)
             .setCancelable(false)
         dialog = builder.create()
+    }
+
+    fun startLoading() {
         dialog.show()
     }
 
 
     fun dismissLoading() {
-        dialog.dismiss()
+        dialog.cancel()
         _binding = null
     }
 }

@@ -1,11 +1,12 @@
-package com.rchyn.prosa.ui.fragments.favorite
+package com.rchyn.prosa.ui.fragments.map
 
 import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.utils.UiText
 
-data class FavoriteUiState(
+
+data class MapUiState(
     val isError: Boolean = false,
     val isLoading: Boolean = false,
     val messageError: UiText? = null,
-    val listFavorite: List<Story> = emptyList()
+    val listStory: List<Story> = emptyList()
 )

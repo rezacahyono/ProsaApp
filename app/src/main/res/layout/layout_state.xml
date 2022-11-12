@@ -1,45 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/padding_dialog"
-    android:paddingHorizontal="@dimen/padding_dialog">
+    android:paddingHorizontal="@dimen/padding_dialog"
+    android:paddingBottom="@dimen/padding_dialog">
 
     <ImageView
         android:id="@+id/iv_placeholder"
         android:layout_width="@dimen/image_placeholder_size"
         android:layout_height="@dimen/image_placeholder_size"
         android:contentDescription="@string/placeholder"
+        android:src="@drawable/ic_empty"
         app:layout_constraintBottom_toTopOf="@id/tv_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.32"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:src="@drawable/ic_empty" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/text_message_error_internet_connection"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/iv_placeholder"
         app:layout_constraintStart_toStartOf="@id/iv_placeholder"
-        app:layout_constraintTop_toBottomOf="@id/iv_placeholder"
-        android:text="@string/text_message_error_internet_connection" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_refresh"
-        style="@style/Widget.Prosa.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/refresh"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/tv_placeholder" />
+        app:layout_constraintTop_toBottomOf="@id/iv_placeholder" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,11 @@ import com.google.gson.JsonObject
 import com.rchyn.prosa.R
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
 
 sealed class ApiResult<T : Any> {
     class ApiSuccess<T : Any>(val data: T) : ApiResult<T>()
-    class ApiError<T : Any>(val uiText: UiText) : ApiResult<T>()
+    class ApiError<T : Any>(val uiText: UiText, val exception: Exception? = null) : ApiResult<T>()
 }
 
 
@@ -27,9 +28,11 @@ suspend fun <T : Any> handleApi(
             ApiResult.ApiError(UiText.DynamicString(messageError))
         }
     } catch (e: HttpException) {
-        ApiResult.ApiError(UiText.StringResource(R.string.text_message_error_server))
-    } catch (e: Throwable) {
-        ApiResult.ApiError(UiText.StringResource(R.string.text_message_error_internet_connection))
+        ApiResult.ApiError(UiText.StringResource(R.string.text_message_error_server), e)
+    } catch (e: IOException) {
+        ApiResult.ApiError(
+            UiText.StringResource(R.string.text_message_error_internet_connection), e
+        )
     }
 }
 

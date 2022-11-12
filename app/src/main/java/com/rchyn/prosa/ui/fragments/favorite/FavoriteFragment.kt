@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rchyn.prosa.R
 import com.rchyn.prosa.adapter.ListStoryFavAdapter
+import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentFavoriteBinding
 import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.ui.activities.MainActivity
+import com.rchyn.prosa.utils.UiText
 import com.rchyn.prosa.utils.hide
 import com.rchyn.prosa.utils.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +34,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var listStoryFavAdapter: ListStoryFavAdapter
 
     private lateinit var act: MainActivity
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,7 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadingDialog = LoadingDialog(requireContext())
 
         listStoryFavAdapter = ListStoryFavAdapter(onClickItem = { story ->
             navigateToDetailStory(story = story)
@@ -54,21 +58,29 @@ class FavoriteFragment : Fragment() {
             favoriteViewModel.setStoryFavorite(story = story)
         })
 
-        favoriteViewModel.listStoryFav.observe(viewLifecycleOwner) { state ->
+        favoriteViewModel.storiesFavState.observe(viewLifecycleOwner) { state ->
             when {
-                !state.isError && !state.isLoading -> {
+                state.isError -> {
+                    loadingDialog.dismissLoading()
+                    val msg = state.messageError?.let { uiText ->
+                        when (uiText) {
+                            is UiText.DynamicString ->
+                                uiText.value
+                            is UiText.StringResource ->
+                                getString(uiText.id)
+                        }
+                    } ?: ""
+                    act.showSnackBar(msg)
+                }
+                state.isLoading -> {
+                    loadingDialog.startLoading()
+                }
+                else -> {
+                    loadingDialog.dismissLoading()
                     binding.recyclerStoriesFav.run { if (state.listFavorite.isEmpty()) hide() else show() }
                     listStoryFavAdapter.submitList(state.listFavorite)
                     setPlaceholder(visibility = state.listFavorite.isEmpty())
                 }
-                state.isError -> {
-                    setPlaceholder(
-                        R.drawable.ic_404,
-                        R.string.text_message_error,
-                        true
-                    )
-                }
-
             }
         }
 

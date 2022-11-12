@@ -5,29 +5,39 @@ import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.domain.use_case.stories.GetStoriesFavoriteUseCase
 import com.rchyn.prosa.domain.use_case.stories.SetStoryFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.rchyn.prosa.utils.Result
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
-    getStoriesFavoriteUseCase: GetStoriesFavoriteUseCase,
+    private val getStoriesFavoriteUseCase: GetStoriesFavoriteUseCase,
     private val setStoryFavoriteUseCase: SetStoryFavoriteUseCase
 ) : ViewModel() {
 
+    private val _storiesFavState: MutableLiveData<FavoriteUiState> = MutableLiveData()
+    val storiesFavState: LiveData<FavoriteUiState> = _storiesFavState
 
-    val listStoryFav: LiveData<FavoriteUiState> = getStoriesFavoriteUseCase()
-        .map {
-            FavoriteUiState(listFavorite = it)
+    init {
+        getStoriesFav()
+    }
+
+    private fun getStoriesFav() {
+        viewModelScope.launch {
+            getStoriesFavoriteUseCase().collect { result ->
+                when (result) {
+                    is Result.Success -> _storiesFavState.value =
+                        FavoriteUiState(listFavorite = result.data)
+                    is Result.Loading -> _storiesFavState.value = FavoriteUiState(isLoading = true)
+                    is Result.Error -> _storiesFavState.value =
+                        FavoriteUiState(
+                            isError = true,
+                            messageError = result.uiText
+                        )
+                }
+            }
         }
-        .onStart {
-            emit(FavoriteUiState(isLoading = true))
-        }.catch {
-            emit(FavoriteUiState(isError = true))
-        }
-        .asLiveData()
+    }
 
 
     fun setStoryFavorite(story: Story) {

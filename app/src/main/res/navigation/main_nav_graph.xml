@@ -43,6 +43,9 @@
             app:exitAnim="@anim/nav_exit_anim"
             app:popEnterAnim="@anim/nav_pop_enter_anim"
             app:popExitAnim="@anim/nav_pop_exit_anim" />
+        <action
+            android:id="@+id/action_home_nav_to_map_nav"
+            app:destination="@id/map_nav" />
     </fragment>
 
     <fragment
@@ -79,6 +82,9 @@
             android:name="isFromFolder"
             android:defaultValue="false"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_add_story_nav_to_search_location_nav"
+            app:destination="@id/search_location_nav" />
     </fragment>
     <fragment
         android:id="@+id/detail_story_nav"
@@ -124,4 +130,26 @@
             android:defaultValue="false"
             app:argType="boolean" />
     </fragment>
+    <fragment
+        android:id="@+id/map_nav"
+        android:name="com.rchyn.prosa.ui.fragments.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_map_nav_to_story_bottom_sheet_nav"
+            app:destination="@id/story_bottom_sheet_nav" />
+    </fragment>
+    <dialog
+        android:id="@+id/story_bottom_sheet_nav"
+        android:name="com.rchyn.prosa.ui.fragments.map.detail.StoryBottomSheetDialog"
+        android:label="StoryBottomSheetDialog">
+        <argument
+            android:name="story"
+            app:argType="com.rchyn.prosa.domain.model.stories.Story" />
+    </dialog>
+    <fragment
+        android:id="@+id/search_location_nav"
+        android:name="com.rchyn.prosa.ui.fragments.story.location.SearchLocationFragment"
+        android:label="fragment_search_location"
+        tools:layout="@layout/fragment_search_location" />
 </navigation>

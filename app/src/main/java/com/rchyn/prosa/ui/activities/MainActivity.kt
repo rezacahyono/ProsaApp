@@ -4,7 +4,9 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -28,9 +30,11 @@ import com.rchyn.prosa.utils.margin
 import com.rchyn.prosa.utils.resolveColorAttr
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     val loginViewModel: LoginViewModel by viewModels()
+    var theme: String? = null
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var sharedPreferences: SharedPreferences
@@ -44,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         askCameraxPermissionGranted()
+        askLocationPermissionGranted()
 
         if (sharedPreferences.getBoolean(getString(R.string.first), true)) {
             val editor = sharedPreferences.edit()
@@ -54,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        val theme = sharedPreferences.getString(
+        theme = sharedPreferences.getString(
             getString(R.string.theme_key),
             getString(R.string.system_theme)
         )
@@ -86,6 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
@@ -184,21 +190,38 @@ class MainActivity : AppCompatActivity() {
 
 
     fun askCameraxPermissionGranted(code: Int = 10): Boolean {
-        return if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        return if (checkPermission(Manifest.permission.CAMERA)) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.CAMERA),
                 code
             )
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
+            checkPermission(Manifest.permission.CAMERA)
         } else true
+    }
+
+    fun askLocationPermissionGranted(code: Int = 20): Boolean {
+        return if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                code
+            )
+            checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        } else true
+    }
+
+    fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) != PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(
@@ -213,6 +236,15 @@ class MainActivity : AppCompatActivity() {
                     if (askCameraxPermissionGranted())
                         showSnackBar(
                             getString(R.string.missing_permission_camera),
+                            binding.fabAddStory
+                        )
+                }
+            }
+            20 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (askLocationPermissionGranted())
+                        showSnackBar(
+                            getString(R.string.missing_permission_location),
                             binding.fabAddStory
                         )
                 }

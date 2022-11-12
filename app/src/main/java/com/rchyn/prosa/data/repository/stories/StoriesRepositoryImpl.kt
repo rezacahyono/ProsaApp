@@ -1,6 +1,7 @@
 package com.rchyn.prosa.data.repository.stories
 
 import androidx.paging.*
+import com.rchyn.prosa.R
 import com.rchyn.prosa.data.local.data_source.StoryLocalDataSource
 import com.rchyn.prosa.data.local.data_store.UserPrefDataStore
 import com.rchyn.prosa.data.local.entity.StoryEntity
@@ -10,6 +11,8 @@ import com.rchyn.prosa.data.toStoryEntity
 import com.rchyn.prosa.domain.model.stories.Story
 import com.rchyn.prosa.domain.repository.stories.StoriesRepository
 import com.rchyn.prosa.utils.*
+import com.rchyn.prosa.utils.Result
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
@@ -20,43 +23,57 @@ import javax.inject.Inject
 class StoriesRepositoryImpl @Inject constructor(
     private val userPrefDataStore: UserPrefDataStore,
     private val storiesLocalDataSource: StoryLocalDataSource,
-    private val storiesRemoteDataSource: StoriesRemoteDataSource
+    private val storiesRemoteDataSource: StoriesRemoteDataSource,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : StoriesRepository {
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getAllStories(): Flow<PagingData<Story>> = Pager(
-        config = PagingConfig(pageSize = 2),
-        remoteMediator = StoriesRemoteMediator(
-            userPrefDataStore,
-            storiesLocalDataSource,
-            storiesRemoteDataSource
-        ),
-        pagingSourceFactory = {
+        config = PagingConfig(pageSize = 2), remoteMediator = StoriesRemoteMediator(
+            userPrefDataStore, storiesLocalDataSource, storiesRemoteDataSource
+        ), pagingSourceFactory = {
             storiesLocalDataSource.getAllStories()
-        },
-        initialKey = null
+        }, initialKey = null
     ).flow.map { pagingData ->
         pagingData.map { it.toStory() }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
-    override fun getStoriesFav(): Flow<List<Story>> =
-        storiesLocalDataSource.getStoriesFav().map { stories ->
-            stories.map { it.toStory() }
-        }.flowOn(Dispatchers.IO)
+    override fun getStoriesWithLocation(): Flow<Result<List<Story>>> = flow {
+        val userPref = userPrefDataStore.userPref.first()
+        val bearerToken = Constant.BEARER_TOKEN.plus(userPref.token)
+
+        when (val source = storiesRemoteDataSource.getStoriesWithLocation(bearerToken)) {
+            is ApiResult.ApiSuccess -> {
+                val result = source.data.listStory.map { it.toStoryEntity().toStory() }
+                emit(Result.Success(result))
+            }
+            is ApiResult.ApiError -> {
+                emit(Result.Error(source.uiText))
+            }
+        }
+
+    }.onStart { emit(Result.Loading) }.flowOn(ioDispatcher)
+
+    override fun getStoriesFav(): Flow<Result<List<Story>>> = flow {
+        try {
+            storiesLocalDataSource.getStoriesFav().collect { stories ->
+                emit(Result.Success(stories.map { it.toStory() }))
+            }
+        } catch (exception: Exception) {
+            emit(Result.Error(UiText.StringResource(R.string.text_message_error)))
+        }
+    }.onStart { emit(Result.Loading) }.flowOn(ioDispatcher)
 
 
     override suspend fun setStoryFavorite(storyEntity: StoryEntity, isFavorite: Boolean) {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             val data = storyEntity.copy(isFavorite = isFavorite)
             storiesLocalDataSource.updateStory(data)
         }
     }
 
     override fun addStory(
-        description: String,
-        photo: File,
-        lat: Float?,
-        lan: Float?
+        description: String, photo: File, lat: Double?, lan: Double?
     ): Flow<Map<Boolean, UiText>> = flow {
 
         val userPref = userPrefDataStore.userPref.first()
@@ -66,16 +83,14 @@ class StoriesRepositoryImpl @Inject constructor(
 
         partMap["description"] = description.createPartFromString()
         if (lat != null && lan != null) {
-            partMap["lat"] = lat.createPartFromFloat()
-            partMap["lan"] = lan.createPartFromFloat()
+            partMap["lat"] = lat.createPartFromDouble()
+            partMap["lon"] = lan.createPartFromDouble()
         }
 
         val requestPhoto = photo.createPartFromFile("image/jpg", "photo")
 
         val source = storiesRemoteDataSource.addStory(
-            bearerToken,
-            partMap,
-            requestPhoto
+            bearerToken, partMap, requestPhoto
         )
 
         when (source) {
@@ -89,6 +104,6 @@ class StoriesRepositoryImpl @Inject constructor(
                 emit(result)
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
 }

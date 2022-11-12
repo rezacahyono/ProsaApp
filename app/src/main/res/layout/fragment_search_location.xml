@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.story.location.SearchLocationFragment">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_location"
+        style="@style/Widget.Prosa.SearchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/root_padding"
+        android:layout_marginTop="@dimen/root_padding"
+        app:layout_constraintEnd_toStartOf="@id/btn_my_location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_my_location"
+        android:layout_width="@dimen/image_button_size"
+        android:layout_height="@dimen/image_button_size"
+        android:layout_marginEnd="@dimen/root_padding"
+        android:background="@drawable/shape_bg_search"
+        android:contentDescription="@string/get_my_location"
+        android:src="@drawable/ic_my_location"
+        app:layout_constraintBottom_toBottomOf="@id/search_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/search_location"
+        app:layout_constraintTop_toTopOf="@id/search_location" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

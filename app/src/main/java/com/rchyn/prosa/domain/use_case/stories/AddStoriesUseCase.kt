@@ -13,7 +13,7 @@ class AddStoriesUseCase @Inject constructor(
     operator fun invoke(
         description: String,
         photo: File,
-        lat: Float? = null,
-        lan: Float? = null
+        lat: Double? = null,
+        lan: Double? = null
     ): Flow<Map<Boolean, UiText>> = storiesRepository.addStory(description, photo, lat, lan)
 }

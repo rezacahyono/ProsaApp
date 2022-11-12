@@ -75,8 +75,11 @@
 
     <string name="missing_permission_camera">The camera permission was denied. Try again or activate the permission manually,
     or the camera won\'t work!</string>
+    <string name="missing_permission_location">The location permission was denied. Try again or activate the permission manually,
+    or the location won\'t work!</string>
     <string name="text_message_error_camera">Oops!😔 Camera something went wrong</string>
     <string name="text_message_favorite_empty">Hmm, you don\'t have a favorite</string>
+    <string name="text_message_location_not_found">Oops!,Location not found</string>
     <string name="preview_photo">Preview photo</string>
     <string name="cancel" translatable="false">Cancel</string>
     <string name="accepted" translatable="false">Accepted</string>
@@ -91,5 +94,11 @@
     <string name="description_board_two">Prosa is made to simple and gorgeous by following the guide from the UI materials.</string>
     <string name="next">Next</string>
     <string name="first" translatable="false">first</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="map">map</string>
+    <string name="add_location">Add location</string>
+    <string name="hint_search_location">Find location…</string>
+    <string name="get_my_location">Get my location</string>
 
 </resources>

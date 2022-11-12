@@ -10,16 +10,15 @@ import com.rchyn.prosa.data.local.entity.RemoteKeys
 import com.rchyn.prosa.data.local.entity.StoryEntity
 import com.rchyn.prosa.data.remote.data_source.stories.StoriesRemoteDataSource
 import com.rchyn.prosa.data.toStoryEntity
+import com.rchyn.prosa.utils.ApiResult
 import com.rchyn.prosa.utils.Constant.BEARER_TOKEN
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalPagingApi::class)
 class StoriesRemoteMediator(
     private val userPrefDataStore: UserPrefDataStore,
     private val storyLocalDataSource: StoryLocalDataSource,
-    private val storyRemoteDataSource: StoriesRemoteDataSource
+    private val storyRemoteDataSource: StoriesRemoteDataSource,
 ) : RemoteMediator<Int, StoryEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -51,36 +50,36 @@ class StoriesRemoteMediator(
             val userPref = userPrefDataStore.userPref.first()
             val bearerToken = BEARER_TOKEN.plus(userPref.token)
 
-            val storyDataSource = storyRemoteDataSource.getAllStories(
+            val storyDataSource = when (val source = storyRemoteDataSource.getAllStories(
                 bearerToken,
                 page,
                 state.config.pageSize
-            )
+            )) {
+                is ApiResult.ApiSuccess -> source.data
+                is ApiResult.ApiError -> return MediatorResult.Error(source.exception!!)
+            }
 
             val endOfPaginationReached = storyDataSource.listStory.isEmpty()
 
-            withContext(Dispatchers.IO) {
-
-                val prevKey = if (page == 1) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = storyDataSource.listStory.map {
-                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
-                }
-
-                val stories = storyDataSource.listStory.map {
-                    val isFavorite = storyLocalDataSource.isNewFavorite(it.id)
-                    it.toStoryEntity().copy(isFavorite = isFavorite)
-                }
-
-
-                if (loadType == LoadType.REFRESH) {
-                    storyLocalDataSource.deleteRemoteKeys()
-                    storyLocalDataSource.deleteStories()
-                }
-
-                storyLocalDataSource.insertRemoteKeys(keys)
-                storyLocalDataSource.insertStories(stories)
+            val prevKey = if (page == 1) null else page - 1
+            val nextKey = if (endOfPaginationReached) null else page + 1
+            val keys = storyDataSource.listStory.map {
+                RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
             }
+
+            val stories = storyDataSource.listStory.map {
+                val isFavorite = storyLocalDataSource.isNewFavorite(it.id)
+                it.toStoryEntity().copy(isFavorite = isFavorite)
+            }
+
+
+            if (loadType == LoadType.REFRESH) {
+                storyLocalDataSource.deleteRemoteKeys()
+                storyLocalDataSource.deleteStories()
+            }
+
+            storyLocalDataSource.insertRemoteKeys(keys)
+            storyLocalDataSource.insertStories(stories)
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {

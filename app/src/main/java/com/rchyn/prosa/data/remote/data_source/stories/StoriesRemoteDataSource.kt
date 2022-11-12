@@ -16,7 +16,17 @@ class StoriesRemoteDataSource @Inject constructor(
         bearerToken: String,
         page: Int,
         size: Int
-    ) = storyApi.getAllStories(bearerToken, page, size)
+    ) = handleApi {
+        storyApi.getAllStories(
+            bearerToken = bearerToken,
+            page = page,
+            size = size
+        )
+    }
+
+    suspend fun getStoriesWithLocation(bearerToken: String, location: Int = 1) =
+        handleApi { storyApi.getAllStories(bearerToken = bearerToken, location = location) }
+
 
     suspend fun addStory(
         bearerToken: String,

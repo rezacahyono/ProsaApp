@@ -58,15 +58,19 @@ class HomeFragment : Fragment() {
                 binding.tvUserName.text = user.name
             }
 
-            listStories.observe(viewLifecycleOwner) { state ->
-                if (!state.isLoading && !state.isError) {
-                    state.listStory?.let { listStoryAdapter.submitData(lifecycle, it) }
-                }
+            storiesState.observe(viewLifecycleOwner) { state ->
+                listStoryAdapter.submitData(lifecycle, state)
             }
         }
         setupRecyclerStory(act)
 
         refreshStory()
+
+        binding.btnMap.setOnClickListener {
+            if (act.askLocationPermissionGranted()) {
+                navigateToMap()
+            }
+        }
     }
 
     private fun refreshStory() {
@@ -96,6 +100,11 @@ class HomeFragment : Fragment() {
 
     private fun navigateToDetailStory(story: Story) {
         val direction = HomeFragmentDirections.actionHomeNavToDetailStoryNav(story)
+        findNavController().navigate(direction)
+    }
+
+    private fun navigateToMap() {
+        val direction = HomeFragmentDirections.actionHomeNavToMapNav()
         findNavController().navigate(direction)
     }
 
