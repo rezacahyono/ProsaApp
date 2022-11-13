@@ -44,21 +44,11 @@ class AddStoryFragment : Fragment() {
         act = activity as MainActivity
 
         photoFile = args.photo
-        val rotate = args.rotate
-        result =
-            if (args.isFromFolder)
-                BitmapFactory.decodeFile(photoFile.path)
-            else
-                rotateBitmap(
-                    BitmapFactory.decodeFile(photoFile.path),
-                    rotate
-                )
-
+        result = BitmapFactory.decodeFile(photoFile.path)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddStoryBinding.inflate(layoutInflater, container, false)
         binding.layoutMainToolbar.toolbar.apply {
@@ -75,8 +65,7 @@ class AddStoryFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val reducePhoto = reduceFileImage(result.bitmapToFile(photoFile))
-        setupUploadStory(reducePhoto)
+        setupUploadStory(photoFile)
 
         binding.apply {
             ivPhoto.setImageBitmap(result)
@@ -95,12 +84,7 @@ class AddStoryFragment : Fragment() {
         storyViewModel.myLocation.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 binding.edtLocation.setText(
-                    getLocationName(
-                        this,
-                        requireContext(),
-                        it.latitude,
-                        it.longitude
-                    )
+                    getLocationName(this@launch, requireContext(), it.latitude, it.longitude)
                 )
             }
 
@@ -118,8 +102,7 @@ class AddStoryFragment : Fragment() {
                         navigateToHome()
                         val fab = act.findViewById<FloatingActionButton>(R.id.fab_add_story)
                         act.showSnackBar(
-                            getString(R.string.message_success_upload_story),
-                            fab
+                            getString(R.string.message_success_upload_story), fab
                         )
                     }
                     state.isLoading -> {
@@ -129,10 +112,8 @@ class AddStoryFragment : Fragment() {
                         loadingDialog.dismissLoading()
                         val msg = state.messageError?.let { uiText ->
                             when (uiText) {
-                                is UiText.DynamicString ->
-                                    uiText.value
-                                is UiText.StringResource ->
-                                    getString(uiText.id)
+                                is UiText.DynamicString -> uiText.value
+                                is UiText.StringResource -> getString(uiText.id)
                             }
                         } ?: getString(R.string.message_failed_upload_story)
                         act.showSnackBar(msg)
@@ -147,8 +128,7 @@ class AddStoryFragment : Fragment() {
             if (text.isNullOrBlank() && count == 0 && before == 1) {
                 binding.layoutEdtDescription.apply {
                     error = getString(
-                        R.string.field_cant_be_empty,
-                        getString(R.string.description)
+                        R.string.field_cant_be_empty, getString(R.string.description)
                     )
                     isErrorEnabled = true
                 }
@@ -161,15 +141,13 @@ class AddStoryFragment : Fragment() {
                 descriptionCorrect = true
             }
             binding.btnUploadStory.isEnabled = descriptionCorrect
-
         }
     }
 
     private fun navigateToHome() {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.main_nav_graph, true)
-            .setLaunchSingleTop(true)
-            .build()
+        val navOptions =
+            NavOptions.Builder().setPopUpTo(R.id.main_nav_graph, true).setLaunchSingleTop(true)
+                .build()
         findNavController().navigate(R.id.home_nav, null, navOptions)
     }
 

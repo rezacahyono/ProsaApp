@@ -2,16 +2,22 @@ package com.rchyn.prosa.ui.fragments.story
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.FragmentPreviewPhotoBinding
+import com.rchyn.prosa.utils.bitmapToFile
+import com.rchyn.prosa.utils.reduceFileImage
 import com.rchyn.prosa.utils.rotateBitmap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.io.File
 
 class PreviewPhotoFragment : Fragment() {
@@ -50,32 +56,31 @@ class PreviewPhotoFragment : Fragment() {
             rotate
         )
 
+        lifecycleScope.launch {
+            val deferred = this.async(Dispatchers.Default) {
+                return@async reduceFileImage(photo.bitmapToFile(photoFile))
+            }
+            val reducePhoto = deferred.await()
+            binding.btnAccepted.setOnClickListener {
+                navigateToAddStory(reducePhoto)
+            }
+        }
 
         binding.apply {
             ivPhotoPreview.setImageBitmap(photo)
             btnCancel.setOnClickListener {
                 navigateToBack()
             }
-            btnAccepted.setOnClickListener {
-                navigateToAddStory(
-                    photoFile,
-                    rotate,
-                    isFromFolder
-                )
-            }
         }
+
     }
 
     private fun navigateToBack() {
         findNavController().navigateUp()
     }
 
-    private fun navigateToAddStory(photo: File, rotate: Boolean, isFromFolder: Boolean) {
-        val direction = PreviewPhotoFragmentDirections.actionPreviewPhotoNavToAddStoryNav(
-            photo,
-            rotate,
-            isFromFolder
-        )
+    private fun navigateToAddStory(photo: File) {
+        val direction = PreviewPhotoFragmentDirections.actionPreviewPhotoNavToAddStoryNav(photo)
         findNavController().navigate(direction)
     }
 

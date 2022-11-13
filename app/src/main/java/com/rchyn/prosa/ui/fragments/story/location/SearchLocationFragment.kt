@@ -1,14 +1,17 @@
 package com.rchyn.prosa.ui.fragments.story.location
 
 import android.Manifest
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -17,7 +20,12 @@ import com.rchyn.prosa.databinding.FragmentSearchLocationBinding
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.ui.fragments.story.StoryViewModel
 import com.rchyn.prosa.utils.showSoftKeyboard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import java.io.IOException
 
 
 class SearchLocationFragment : Fragment() {
@@ -45,6 +53,7 @@ class SearchLocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        act.askLocationPermissionGranted()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         setupSearchLocation()
@@ -71,7 +80,7 @@ class SearchLocationFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
-
+                    searchLocation(query)
                 }
                 searchView.clearFocus()
                 return true
@@ -81,6 +90,23 @@ class SearchLocationFragment : Fragment() {
                 return false
             }
         })
+    }
+
+    internal fun searchLocation(name: String) {
+        lifecycleScope.launch {
+            try {
+                val deferred = this.async(Dispatchers.IO) {
+                    val geocoder = Geocoder(requireContext())
+                    return@async geocoder.getFromLocationName(name, 10)
+                }
+                withContext(Dispatchers.Main) {
+                    val data = deferred.await()
+                    Log.d("TAG", "searchLocation: ${data?.size}")
+                }
+            } catch (e: IOException) {
+                Log.e("TAG", "searchLocation: ${e.message}")
+            }
+        }
     }
 
     private fun getMyLocation() {
