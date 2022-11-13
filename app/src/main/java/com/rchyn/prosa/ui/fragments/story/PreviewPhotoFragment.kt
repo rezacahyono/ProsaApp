@@ -15,9 +15,6 @@ import com.rchyn.prosa.databinding.FragmentPreviewPhotoBinding
 import com.rchyn.prosa.utils.bitmapToFile
 import com.rchyn.prosa.utils.reduceFileImage
 import com.rchyn.prosa.utils.rotateBitmap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import java.io.File
 
 class PreviewPhotoFragment : Fragment() {
@@ -56,20 +53,15 @@ class PreviewPhotoFragment : Fragment() {
             rotate
         )
 
-        lifecycleScope.launch {
-            val deferred = this.async(Dispatchers.Default) {
-                return@async reduceFileImage(photo.bitmapToFile(photoFile))
-            }
-            val reducePhoto = deferred.await()
-            binding.btnAccepted.setOnClickListener {
-                navigateToAddStory(reducePhoto)
-            }
-        }
+        val reducePhoto = reduceFileImage(photo.bitmapToFile(photoFile))
 
         binding.apply {
             ivPhotoPreview.setImageBitmap(photo)
             btnCancel.setOnClickListener {
                 navigateToBack()
+            }
+            btnAccepted.setOnClickListener {
+                navigateToAddStory(reducePhoto)
             }
         }
 

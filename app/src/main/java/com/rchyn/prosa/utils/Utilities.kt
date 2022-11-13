@@ -14,7 +14,6 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -117,10 +116,9 @@ suspend fun getLocationName(
         }
         withContext(Dispatchers.Main) {
             val data = deferred.await()
-            "${data[0].locality} - ${data[0].countryName}"
+            data[0].getAddressLine(0)
         }
     } catch (e: IOException) {
-        Log.e("TAG", "${e.message}")
         context.getString(R.string.text_message_location_not_found)
     }
 }

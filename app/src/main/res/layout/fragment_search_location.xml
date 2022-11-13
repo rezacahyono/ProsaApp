@@ -30,4 +30,12 @@
         app:layout_constraintStart_toEndOf="@id/search_location"
         app:layout_constraintTop_toTopOf="@id/search_location" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/root_padding"
+        app:layout_constraintTop_toBottomOf="@id/search_location"
+        tools:listitem="@layout/item_row_location" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

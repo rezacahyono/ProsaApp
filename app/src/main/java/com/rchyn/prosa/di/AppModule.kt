@@ -13,11 +13,15 @@ import com.rchyn.prosa.data.local.room.RemoteKeysDao
 import com.rchyn.prosa.data.local.room.StoryDao
 import com.rchyn.prosa.data.local.room.StoryDatabase
 import com.rchyn.prosa.data.remote.data_source.auth.UserRemoteDataSource
+import com.rchyn.prosa.data.remote.data_source.place.PlaceRemoteDataSource
 import com.rchyn.prosa.data.remote.data_source.stories.StoriesRemoteDataSource
+import com.rchyn.prosa.data.remote.retrofit.PlaceApi
 import com.rchyn.prosa.data.remote.retrofit.StoryApi
+import com.rchyn.prosa.data.repository.place.PlaceRepositoryImpl
 import com.rchyn.prosa.data.repository.stories.StoriesRepositoryImpl
 import com.rchyn.prosa.data.repository.user.UserRepositoryImpl
 import com.rchyn.prosa.domain.model.user.User
+import com.rchyn.prosa.domain.repository.place.PlaceRepository
 import com.rchyn.prosa.domain.repository.stories.StoriesRepository
 import com.rchyn.prosa.domain.repository.user.UserRepository
 import com.rchyn.prosa.utils.Constant
@@ -45,9 +49,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-        }else {
+        } else {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
         }
 
@@ -66,11 +70,21 @@ object AppModule {
     @Provides
     fun provideStoryApi(okHttpClient: OkHttpClient): StoryApi =
         Retrofit.Builder()
-            .baseUrl(Constant.BASE_URL)
+            .baseUrl(Constant.BASE_URL_STORY)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
             .create(StoryApi::class.java)
+
+    @Singleton
+    @Provides
+    fun providePlaceApi(okHttpClient: OkHttpClient): PlaceApi =
+        Retrofit.Builder()
+            .baseUrl(Constant.BASE_URL_PLACE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(PlaceApi::class.java)
 
     @Singleton
     @Provides
@@ -89,6 +103,11 @@ object AppModule {
         storiesRemoteDataSource: StoriesRemoteDataSource
     ): StoriesRepository =
         StoriesRepositoryImpl(userPrefDataStore, storiesLocalDataSource, storiesRemoteDataSource)
+
+    @Singleton
+    @Provides
+    fun providePlaceRepository(placeRemoteDataSource: PlaceRemoteDataSource): PlaceRepository =
+        PlaceRepositoryImpl(placeRemoteDataSource)
 
     @Singleton
     @Provides

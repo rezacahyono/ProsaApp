@@ -14,15 +14,18 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.FragmentCameraxBinding
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.utils.createFile
 import com.rchyn.prosa.utils.uriToFile
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 
+@AndroidEntryPoint
 class CameraxFragment : Fragment() {
 
     private var _binding: FragmentCameraxBinding? = null
@@ -32,6 +35,7 @@ class CameraxFragment : Fragment() {
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
     private lateinit var resultLauncher: ActivityResultLauncher<String>
+    private val storyViewModel: StoryViewModel by activityViewModels()
 
     private lateinit var act: MainActivity
 
@@ -65,7 +69,9 @@ class CameraxFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        storyViewModel.clearMyLocation()
         act.askCameraxPermissionGranted()
+
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }

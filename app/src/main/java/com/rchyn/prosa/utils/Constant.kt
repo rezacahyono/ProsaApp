@@ -1,7 +1,9 @@
 package com.rchyn.prosa.utils
 
 object Constant {
-    const val BASE_URL = "https://story-api.dicoding.dev/v1/"
+    const val BASE_URL_STORY = "https://story-api.dicoding.dev/v1/"
+    const val BASE_URL_PLACE = "https://api.geoapify.com/v1/"
+
     const val USER_PREF = "user_pref.json"
 
     const val BEARER_TOKEN = "Bearer "

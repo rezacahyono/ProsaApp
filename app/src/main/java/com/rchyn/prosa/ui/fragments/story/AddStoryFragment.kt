@@ -81,13 +81,19 @@ class AddStoryFragment : Fragment() {
 
         val description = binding.edtDescription
 
-        storyViewModel.myLocation.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                binding.edtLocation.setText(
-                    getLocationName(this@launch, requireContext(), it.latitude, it.longitude)
-                )
+        storyViewModel.myLocation.observe(viewLifecycleOwner) { location ->
+            if (location != null) {
+                lifecycleScope.launch {
+                    binding.edtLocation.setText(
+                        getLocationName(
+                            this@launch,
+                            requireContext(),
+                            location.latitude,
+                            location.longitude
+                        )
+                    )
+                }
             }
-
         }
 
         binding.btnUploadStory.setOnClickListener {

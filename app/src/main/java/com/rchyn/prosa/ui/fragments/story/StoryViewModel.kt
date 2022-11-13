@@ -1,27 +1,32 @@
 package com.rchyn.prosa.ui.fragments.story
 
 import android.location.Location
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.rchyn.prosa.R
+import com.rchyn.prosa.domain.use_case.place.GetPlaceUseCase
 import com.rchyn.prosa.domain.use_case.stories.AddStoriesUseCase
+import com.rchyn.prosa.ui.fragments.story.location.SearchLocationUiState
+import com.rchyn.prosa.utils.Result
 import com.rchyn.prosa.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class StoryViewModel @Inject constructor(
-    private val addStoriesUseCase: AddStoriesUseCase
+    private val addStoriesUseCase: AddStoriesUseCase,
+    private val getPlaceUseCase: GetPlaceUseCase
 ) : ViewModel() {
 
-    private val _myLocation: MutableLiveData<Location> = MutableLiveData()
-    val myLocation: LiveData<Location> = _myLocation
+    private val _myLocation: MutableLiveData<Location?> = MutableLiveData()
+    val myLocation: LiveData<Location?> = _myLocation
+
+    private val _place: MutableLiveData<SearchLocationUiState> = MutableLiveData()
+    val place: LiveData<SearchLocationUiState> = _place
 
     fun addStory(
         description: String,
@@ -51,7 +56,29 @@ class StoryViewModel @Inject constructor(
             }.asLiveData()
     }
 
+    fun getPlace(query: String) {
+        viewModelScope.launch {
+            getPlaceUseCase(query).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _place.value = SearchLocationUiState(listLocation = result.data)
+                    }
+                    is Result.Loading -> {
+                        _place.value = SearchLocationUiState(isLoading = true)
+                    }
+                    is Result.Error -> {
+                        _place.value = SearchLocationUiState(isError = true)
+                    }
+                }
+            }
+        }
+    }
+
     fun setMyLocation(location: Location) {
         _myLocation.value = location
+    }
+
+    fun clearMyLocation(){
+        _myLocation.value = null
     }
 }

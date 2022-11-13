@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|start"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="textMultiLine|textCapSentences"
                 android:maxHeight="@dimen/description_maximum_height"
                 android:maxLength="200"

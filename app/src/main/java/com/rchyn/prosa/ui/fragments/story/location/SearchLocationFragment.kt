@@ -3,6 +3,7 @@ package com.rchyn.prosa.ui.fragments.story.location
 import android.Manifest
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,9 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.rchyn.prosa.R
+import com.rchyn.prosa.adapter.ListLocationAdapter
 import com.rchyn.prosa.databinding.FragmentSearchLocationBinding
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.ui.fragments.story.StoryViewModel
@@ -33,13 +37,26 @@ class SearchLocationFragment : Fragment() {
     private var _binding: FragmentSearchLocationBinding? = null
     private val binding get() = _binding as FragmentSearchLocationBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private lateinit var locationAdapter: ListLocationAdapter
     private lateinit var act: MainActivity
 
-    private val storyViewModel: StoryViewModel by activityViewModels()
+    internal val storyViewModel: StoryViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         act = activity as MainActivity
+
+        locationAdapter = ListLocationAdapter { place ->
+            val location = Location(LocationManager.GPS_PROVIDER)
+            location.apply {
+                latitude = place.lat
+                longitude = place.lon
+            }
+            storyViewModel.setMyLocation(location)
+            navigateToBack()
+
+        }
     }
 
     override fun onCreateView(
@@ -56,10 +73,33 @@ class SearchLocationFragment : Fragment() {
         act.askLocationPermissionGranted()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
+        setupRecyclerLocation()
         setupSearchLocation()
+
+        storyViewModel.place.observe(viewLifecycleOwner) { state ->
+            when {
+                state.isError -> {
+                    act.showSnackBar(getString(R.string.text_message_location_not_found))
+                }
+                state.isLoading -> {}
+                else -> {
+                    locationAdapter.submitList(state.listLocation)
+                }
+            }
+        }
 
         binding.btnMyLocation.setOnClickListener {
             getMyLocation()
+        }
+    }
+
+    private fun setupRecyclerLocation() {
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        val divider = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+        binding.recyclerLocation.apply {
+            layoutManager = linearLayoutManager
+            addItemDecoration(divider)
+            adapter = locationAdapter
         }
     }
 
@@ -80,33 +120,19 @@ class SearchLocationFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
-                    searchLocation(query)
+                    storyViewModel.getPlace(query)
                 }
                 searchView.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrBlank()) {
+                    storyViewModel.getPlace(newText)
+                }
                 return false
             }
         })
-    }
-
-    internal fun searchLocation(name: String) {
-        lifecycleScope.launch {
-            try {
-                val deferred = this.async(Dispatchers.IO) {
-                    val geocoder = Geocoder(requireContext())
-                    return@async geocoder.getFromLocationName(name, 10)
-                }
-                withContext(Dispatchers.Main) {
-                    val data = deferred.await()
-                    Log.d("TAG", "searchLocation: ${data?.size}")
-                }
-            } catch (e: IOException) {
-                Log.e("TAG", "searchLocation: ${e.message}")
-            }
-        }
     }
 
     private fun getMyLocation() {
