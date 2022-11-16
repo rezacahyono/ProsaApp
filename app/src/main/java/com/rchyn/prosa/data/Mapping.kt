@@ -3,8 +3,8 @@ package com.rchyn.prosa.data
 import com.rchyn.prosa.data.local.entity.StoryEntity
 import com.rchyn.prosa.data.remote.dto.place.FeaturesItem
 import com.rchyn.prosa.data.remote.dto.stories.StoryDto
-import com.rchyn.prosa.domain.model.place.Place
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.place.Place
+import com.rchyn.prosa.model.stories.Story
 
 fun StoryDto.toStoryEntity() =
     StoryEntity(

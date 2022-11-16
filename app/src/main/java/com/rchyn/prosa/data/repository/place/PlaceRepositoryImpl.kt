@@ -3,8 +3,7 @@ package com.rchyn.prosa.data.repository.place
 import com.rchyn.prosa.BuildConfig
 import com.rchyn.prosa.data.remote.data_source.place.PlaceRemoteDataSource
 import com.rchyn.prosa.data.toPlace
-import com.rchyn.prosa.domain.model.place.Place
-import com.rchyn.prosa.domain.repository.place.PlaceRepository
+import com.rchyn.prosa.model.place.Place
 import com.rchyn.prosa.utils.ApiResult
 import com.rchyn.prosa.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher

@@ -8,8 +8,7 @@ import com.rchyn.prosa.data.local.entity.StoryEntity
 import com.rchyn.prosa.data.remote.data_source.stories.StoriesRemoteDataSource
 import com.rchyn.prosa.data.toStory
 import com.rchyn.prosa.data.toStoryEntity
-import com.rchyn.prosa.domain.model.stories.Story
-import com.rchyn.prosa.domain.repository.stories.StoriesRepository
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.*
 import com.rchyn.prosa.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
@@ -73,7 +72,7 @@ class StoriesRepositoryImpl @Inject constructor(
     }
 
     override fun addStory(
-        description: String, photo: File, lat: Double?, lan: Double?
+        description: String, photo: File, lat: Double?, lon: Double?
     ): Flow<Map<Boolean, UiText>> = flow {
 
         val userPref = userPrefDataStore.userPref.first()
@@ -82,9 +81,9 @@ class StoriesRepositoryImpl @Inject constructor(
         val partMap: MutableMap<String, RequestBody> = mutableMapOf()
 
         partMap["description"] = description.createPartFromString()
-        if (lat != null && lan != null) {
+        if (lat != null && lon != null) {
             partMap["lat"] = lat.createPartFromDouble()
-            partMap["lon"] = lan.createPartFromDouble()
+            partMap["lon"] = lon.createPartFromDouble()
         }
 
         val requestPhoto = photo.createPartFromFile("image/jpg", "photo")

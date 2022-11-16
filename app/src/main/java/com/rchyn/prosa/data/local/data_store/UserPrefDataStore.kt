@@ -2,7 +2,7 @@ package com.rchyn.prosa.data.local.data_store
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import com.rchyn.prosa.domain.model.user.User
+import com.rchyn.prosa.model.user.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

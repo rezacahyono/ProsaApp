@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.*
 import com.rchyn.prosa.R
 import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentMapBinding
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.utils.*
 import dagger.hilt.android.AndroidEntryPoint

@@ -16,7 +16,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.FragmentDetailStoryBinding
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.ui.fragments.home.HomeViewModel
 import com.rchyn.prosa.utils.convertTimeToLocal
 import com.rchyn.prosa.utils.getLocationName

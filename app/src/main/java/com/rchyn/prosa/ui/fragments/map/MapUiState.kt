@@ -1,6 +1,6 @@
 package com.rchyn.prosa.ui.fragments.map
 
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.UiText
 
 

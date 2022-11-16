@@ -1,7 +1,7 @@
 package com.rchyn.prosa.data.remote.dto.user
 
 import com.google.gson.annotations.SerializedName
-import com.rchyn.prosa.domain.model.user.User
+import com.rchyn.prosa.model.user.User
 
 data class LoginResult(
 

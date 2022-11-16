@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rchyn.prosa.adapter.ListStoryAdapter
 import com.rchyn.prosa.adapter.LoadingStateAdapter
 import com.rchyn.prosa.databinding.FragmentHomeBinding
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.ui.activities.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
                 binding.tvUserName.text = user.name
             }
 
-            storiesState.observe(viewLifecycleOwner) { state ->
+            allStories.observe(viewLifecycleOwner) { state ->
                 listStoryAdapter.submitData(lifecycle, state)
             }
         }

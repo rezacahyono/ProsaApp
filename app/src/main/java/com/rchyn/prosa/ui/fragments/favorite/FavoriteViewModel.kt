@@ -1,18 +1,20 @@
 package com.rchyn.prosa.ui.fragments.favorite
 
-import androidx.lifecycle.*
-import com.rchyn.prosa.domain.model.stories.Story
-import com.rchyn.prosa.domain.use_case.stories.GetStoriesFavoriteUseCase
-import com.rchyn.prosa.domain.use_case.stories.SetStoryFavoriteUseCase
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.rchyn.prosa.data.toStoryEntity
+import com.rchyn.prosa.model.stories.Story
+import com.rchyn.prosa.data.repository.stories.StoriesRepository
+import com.rchyn.prosa.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.rchyn.prosa.utils.Result
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
-    private val getStoriesFavoriteUseCase: GetStoriesFavoriteUseCase,
-    private val setStoryFavoriteUseCase: SetStoryFavoriteUseCase
+    private val storiesRepository: StoriesRepository
 ) : ViewModel() {
 
     private val _storiesFavState: MutableLiveData<FavoriteUiState> = MutableLiveData()
@@ -24,7 +26,7 @@ class FavoriteViewModel @Inject constructor(
 
     private fun getStoriesFav() {
         viewModelScope.launch {
-            getStoriesFavoriteUseCase().collect { result ->
+            storiesRepository.getStoriesFav().collect { result ->
                 when (result) {
                     is Result.Success -> _storiesFavState.value =
                         FavoriteUiState(listFavorite = result.data)
@@ -39,10 +41,10 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
-
     fun setStoryFavorite(story: Story) {
         viewModelScope.launch {
-            setStoryFavoriteUseCase(story, !story.isFavorite)
+            val storyEntity = story.toStoryEntity()
+            storiesRepository.setStoryFavorite(storyEntity, !story.isFavorite)
         }
     }
 }

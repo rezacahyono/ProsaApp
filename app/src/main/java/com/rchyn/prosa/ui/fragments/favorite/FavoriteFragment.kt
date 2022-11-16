@@ -16,7 +16,7 @@ import com.rchyn.prosa.R
 import com.rchyn.prosa.adapter.ListStoryFavAdapter
 import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentFavoriteBinding
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.utils.UiText
 import com.rchyn.prosa.utils.hide

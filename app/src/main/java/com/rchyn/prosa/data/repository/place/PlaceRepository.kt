@@ -1,6 +1,6 @@
-package com.rchyn.prosa.domain.repository.place
+package com.rchyn.prosa.data.repository.place
 
-import com.rchyn.prosa.domain.model.place.Place
+import com.rchyn.prosa.model.place.Place
 import kotlinx.coroutines.flow.Flow
 import com.rchyn.prosa.utils.Result
 

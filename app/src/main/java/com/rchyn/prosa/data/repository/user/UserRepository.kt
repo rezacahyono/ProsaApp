@@ -1,6 +1,6 @@
-package com.rchyn.prosa.domain.repository.user
+package com.rchyn.prosa.data.repository.user
 
-import com.rchyn.prosa.domain.model.user.User
+import com.rchyn.prosa.model.user.User
 import com.rchyn.prosa.utils.UiText
 import kotlinx.coroutines.flow.Flow
 

@@ -1,4 +1,4 @@
-package com.rchyn.prosa.domain.model.place
+package com.rchyn.prosa.model.place
 
 data class Place(
     val name: String,

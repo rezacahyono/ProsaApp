@@ -1,4 +1,4 @@
-package com.rchyn.prosa.domain.model.user
+package com.rchyn.prosa.model.user
 
 import kotlinx.serialization.Serializable
 

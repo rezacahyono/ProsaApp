@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rchyn.prosa.databinding.ItemRowLocationBinding
-import com.rchyn.prosa.domain.model.place.Place
+import com.rchyn.prosa.model.place.Place
 
 class ListLocationAdapter(
     private val onClickItem: (place: Place) -> Unit

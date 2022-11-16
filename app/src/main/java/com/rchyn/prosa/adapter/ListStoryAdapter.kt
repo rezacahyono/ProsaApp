@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.ItemRowStoryBinding
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.convertTimeToLocal
 
 
@@ -63,7 +63,7 @@ class ListStoryAdapter(
     }
 
 
-    private companion object DiffCallback : DiffUtil.ItemCallback<Story>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<Story>() {
         override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
             return oldItem == newItem
         }

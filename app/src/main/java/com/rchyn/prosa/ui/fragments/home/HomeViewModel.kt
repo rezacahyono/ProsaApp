@@ -6,29 +6,30 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.rchyn.prosa.domain.model.stories.Story
-import com.rchyn.prosa.domain.use_case.stories.GetAllStoriesUseCase
-import com.rchyn.prosa.domain.use_case.stories.SetStoryFavoriteUseCase
-import com.rchyn.prosa.domain.use_case.user.AuthUserUseCase
+import com.rchyn.prosa.data.toStoryEntity
+import com.rchyn.prosa.model.stories.Story
+import com.rchyn.prosa.data.repository.stories.StoriesRepository
+import com.rchyn.prosa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    authUserUseCase: AuthUserUseCase,
-    getAllStoriesUseCase: GetAllStoriesUseCase,
-    private val setStoryFavoriteUseCase: SetStoryFavoriteUseCase
+    private val userRepository: UserRepository,
+    private val storiesRepository: StoriesRepository,
 ) : ViewModel() {
 
-    val userPref = authUserUseCase.userPref.asLiveData()
+    val userPref by lazy { userRepository.userPref.asLiveData() }
 
-    val storiesState: LiveData<PagingData<Story>> =
-        getAllStoriesUseCase().cachedIn(viewModelScope).asLiveData()
+    val allStories: LiveData<PagingData<Story>> by lazy {
+        storiesRepository.getAllStories().cachedIn(viewModelScope).asLiveData()
+    }
 
     fun setStoryFavorite(story: Story) {
         viewModelScope.launch {
-            setStoryFavoriteUseCase(story, !story.isFavorite)
+            val storyEntity = story.toStoryEntity()
+            storiesRepository.setStoryFavorite(storyEntity, !story.isFavorite)
         }
     }
 

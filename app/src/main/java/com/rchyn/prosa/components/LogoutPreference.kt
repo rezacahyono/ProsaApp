@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.rchyn.prosa.databinding.ItemRowLogoutBinding
-import com.rchyn.prosa.domain.model.user.User
+import com.rchyn.prosa.model.user.User
 import com.rchyn.prosa.ui.activities.MainActivity
 
 class LogoutPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {

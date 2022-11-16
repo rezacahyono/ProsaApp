@@ -20,10 +20,10 @@ import com.rchyn.prosa.data.remote.retrofit.StoryApi
 import com.rchyn.prosa.data.repository.place.PlaceRepositoryImpl
 import com.rchyn.prosa.data.repository.stories.StoriesRepositoryImpl
 import com.rchyn.prosa.data.repository.user.UserRepositoryImpl
-import com.rchyn.prosa.domain.model.user.User
-import com.rchyn.prosa.domain.repository.place.PlaceRepository
-import com.rchyn.prosa.domain.repository.stories.StoriesRepository
-import com.rchyn.prosa.domain.repository.user.UserRepository
+import com.rchyn.prosa.model.user.User
+import com.rchyn.prosa.data.repository.place.PlaceRepository
+import com.rchyn.prosa.data.repository.stories.StoriesRepository
+import com.rchyn.prosa.data.repository.user.UserRepository
 import com.rchyn.prosa.utils.Constant
 import com.rchyn.prosa.utils.Constant.STORY_DB
 import com.rchyn.prosa.utils.Constant.USER_PREF

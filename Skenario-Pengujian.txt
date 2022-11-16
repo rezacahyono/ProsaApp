@@ -1,0 +1,130 @@
+Pengujian Prosa App :
+Favorite ViewModel
+* Ketika memanggil Get Stories
+	o Memastikan data tidak null.
+	o Memastikan error dan loading bernilai false.
+	o Mengembalikan Favorite Ui State Success dengan data tidak kosong.
+	o Memastikan data tidak kosong
+	o Memastikan jumlah data sesuai dengan yang diharapkan.
+* Ketika memanggil Get Stories
+	o Memasitkan data tidak null.
+	o Memastikan error dan loading bernilai false.
+	o Mengembalikan Favorite Ui State Success dengan data kosong.
+	o Memastikan data kosong.
+	o Memastikan jumlah data sesuai dengan yang diharapkan.
+* Ketika memanggil Get Stories
+	o Memastikan data tidak null
+	o Memastikan loading berniali true
+	o Mengembalikan Favorite Ui State Loading
+	o Memastikan nilai loading sesuai dengan yang diharapkan
+* Ketika memanggil Get Stories
+	o Memastikan data tidak null.
+	o Memastikan error berniali true.
+	o Mengembalikan Favorite Ui State Error dengan message error.
+	o Memastikan data error sesuai dengan yang diharapkan.
+* Ketika mengubah storyFavorite
+	o Ketika is Favorite berniali false, akan memanggil fungsi setStoryFavorite
+	o Ketika is Favorite berniali true, akan memanggil fungsi setStoryFavorite
+
+Home ViewModel
+* Ketika memanggil Get All Stories
+	o Memastikan data tidak null
+	o Memastikan jumlah data sesuai dengan yang diharapkan
+* Ketika mengubah storyFavorite
+	o Ketika is Favorite berniali false, akan memanggil fungsi setStoryFavorite
+	o Ketika is Favorite berniali true, akan memanggil fungsi setStoryFavorite
+* Ketika memanggil user pref
+	o Memastikan data tidak null
+	o Mengembalikan data sesuai dengan yang diharapkan.
+
+Login ViewModel
+* Ketika memanggil user pref
+	o Memastikan data tidak null
+	o Memastikan data is Login bernilai true
+* Ketika memanggil user pref
+	o Memastikan data tidak null
+	o Memastikan data is Login bernilai false
+* Ketika memanggil login
+	o Memastikan data tidak null
+	o Mengembalikan Login Ui State Success
+	o Memastikan data error dan loading bernilai false
+	o Memastikan Login Ui State sesuai dengan yang diharapkan
+* Ketika memanggil login
+	o Memastikan data tidak null
+	o Mengembalikan Login Ui State Loading
+	o Memastikan data loading bernilai true
+	o Memastikan Login Ui State sesuai dengan yang diharapkan
+* Ketika memanggil login
+	o Memastikan data tidak null
+	o Mengembalikan Login Ui State Error
+	o Memastikan data error bernilai true
+	o Memastikan Login Ui State sesuai dengan yang diharapkan
+* Ketika SetUserPref dipanggil
+	o Memastikan fungsi  userRepository.setUserPref dipanggil
+
+Map ViewModel
+* Ketika memanggil Get Stories with location
+	o Memastikan data tidak null.
+	o Memastikan error dan loading bernilai false.
+	o Mengembalikan Map Ui State Success dengan data tidak kosong.
+	o Memastikan data tidak kosong
+	o Memastikan jumlah data sesuai dengan yang diharapkan.
+* Ketika memanggil Get Stories with location
+	o Memasitkan data tidak null.
+	o Memastikan error dan loading bernilai false.
+	o Mengembalikan Map Ui State Success dengan data kosong.
+	o Memastikan data kosong.
+	o Memastikan jumlah data sesuai dengan yang diharapkan.
+* Ketika memanggil Get Stories with loacation
+	o Memastikan data tidak null
+	o Memastikan loading berniali true
+	o Mengembalikan Map Ui State Loading
+	o Memastikan nilai loading sesuai dengan yang diharapkan
+* Ketika memanggil Get Stories with location
+	o Memastikan data tidak null.
+	o Memastikan error berniali true.
+	o Mengembalikan Map Ui State Error dengan message error.
+	o Memastikan data error sesuai dengan yang diharapkan.
+
+Register ViewModel
+* Ketika memanggil Register
+	o Memastikan data tidak null
+	o Mengembalikan Register Ui State Success
+	o Memastikan data error dan loading bernilai false
+	o Memastikan Register Ui State sesuai dengan yang diharapkan
+* Ketika memanggil Register
+	o Memastikan data tidak null
+	o Mengembalikan Register Ui State Loading
+	o Memastikan data loading bernilai true
+	o Memastikan Register Ui State sesuai dengan yang diharapkan
+* Ketika memanggil Register
+	o Memastikan data tidak null
+	o Mengembalikan Register Ui State Error
+	o Memastikan data error bernilai true
+	o Memastikan Register Ui State sesuai dengan yang diharapkan
+
+Story ViewModel
+* Ketika Get Place dipanggil
+	o Memastikan data tidak null
+	o Mengembalikan Search Location Ui State Success
+	o Memastikan data sesuai dengan yang diharapkan
+* Ketika Get Place dipanggil
+	o Memastikan data tidak null
+	o Mengembalikan Search Location Ui State Loading
+	o Memastikan data sesuai dengan yang diharapkan
+* Ketikan Get Place dipanggil
+	o Memastikan data tidak null
+	o Mengembalikan Search Location Ui State Error
+	o Memastikdan data sesuai dengan yang diharapkan
+* Ketika Add Story dipanggil
+	o Memastikan data tidak null
+	o Mengembalikan Story Ui State Success
+	o Memastikan data sesuai dengan yang diharapkan
+* Ketika Add Story dipanggil
+	o Memastikan data tidak null
+	o Mengembalikan Story Ui State Loading
+	o Memastikan data sesuai dengan yang diharapkan
+* Ketikan Add Story dipanggil
+	o Memastikan data tidak null
+	o Mengembalikan Story Ui State Error
+	o Memastikdan data sesuai dengan yang diharapkan

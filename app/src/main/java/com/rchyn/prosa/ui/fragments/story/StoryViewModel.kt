@@ -3,8 +3,8 @@ package com.rchyn.prosa.ui.fragments.story
 import android.location.Location
 import androidx.lifecycle.*
 import com.rchyn.prosa.R
-import com.rchyn.prosa.domain.use_case.place.GetPlaceUseCase
-import com.rchyn.prosa.domain.use_case.stories.AddStoriesUseCase
+import com.rchyn.prosa.data.repository.place.PlaceRepository
+import com.rchyn.prosa.data.repository.stories.StoriesRepository
 import com.rchyn.prosa.ui.fragments.story.location.SearchLocationUiState
 import com.rchyn.prosa.utils.Result
 import com.rchyn.prosa.utils.UiText
@@ -18,8 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StoryViewModel @Inject constructor(
-    private val addStoriesUseCase: AddStoriesUseCase,
-    private val getPlaceUseCase: GetPlaceUseCase
+    private val storiesRepository: StoriesRepository,
+    private val placeRepository: PlaceRepository
 ) : ViewModel() {
 
     private val _myLocation: MutableLiveData<Location?> = MutableLiveData()
@@ -32,7 +32,7 @@ class StoryViewModel @Inject constructor(
         description: String,
         photo: File,
     ): LiveData<StoryUIState> {
-        return addStoriesUseCase(
+        return storiesRepository.addStory(
             description,
             photo,
             myLocation.value?.latitude,
@@ -58,7 +58,7 @@ class StoryViewModel @Inject constructor(
 
     fun getPlace(query: String) {
         viewModelScope.launch {
-            getPlaceUseCase(query).collect { result ->
+            placeRepository.getPlace(query).collect { result ->
                 when (result) {
                     is Result.Success -> {
                         _place.value = SearchLocationUiState(listLocation = result.data)
@@ -67,7 +67,8 @@ class StoryViewModel @Inject constructor(
                         _place.value = SearchLocationUiState(isLoading = true)
                     }
                     is Result.Error -> {
-                        _place.value = SearchLocationUiState(isError = true)
+                        _place.value =
+                            SearchLocationUiState(isError = true, messageError = result.uiText)
                     }
                 }
             }
@@ -78,7 +79,7 @@ class StoryViewModel @Inject constructor(
         _myLocation.value = location
     }
 
-    fun clearMyLocation(){
+    fun clearMyLocation() {
         _myLocation.value = null
     }
 }

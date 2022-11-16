@@ -1,4 +1,4 @@
-package com.rchyn.prosa.domain.model.stories
+package com.rchyn.prosa.model.stories
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

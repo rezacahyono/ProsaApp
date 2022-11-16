@@ -2,8 +2,7 @@ package com.rchyn.prosa.data.repository.user
 
 import com.rchyn.prosa.data.local.data_store.UserPrefDataStore
 import com.rchyn.prosa.data.remote.data_source.auth.UserRemoteDataSource
-import com.rchyn.prosa.domain.model.user.User
-import com.rchyn.prosa.domain.repository.user.UserRepository
+import com.rchyn.prosa.model.user.User
 import com.rchyn.prosa.utils.ApiResult
 import com.rchyn.prosa.utils.UiText
 import kotlinx.coroutines.CoroutineDispatcher

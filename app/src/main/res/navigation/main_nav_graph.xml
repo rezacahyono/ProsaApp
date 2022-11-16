@@ -89,7 +89,7 @@
         tools:layout="@layout/fragment_detail_story">
         <argument
             android:name="story"
-            app:argType="com.rchyn.prosa.domain.model.stories.Story" />
+            app:argType="com.rchyn.prosa.model.stories.Story" />
     </fragment>
     <fragment
         android:id="@+id/camerax_nav"
@@ -141,7 +141,7 @@
         android:label="StoryBottomSheetDialog">
         <argument
             android:name="story"
-            app:argType="com.rchyn.prosa.domain.model.stories.Story" />
+            app:argType="com.rchyn.prosa.model.stories.Story" />
     </dialog>
     <fragment
         android:id="@+id/search_location_nav"

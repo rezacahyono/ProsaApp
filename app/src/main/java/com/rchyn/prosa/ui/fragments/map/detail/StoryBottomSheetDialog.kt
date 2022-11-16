@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.DialogBottomStoryBinding
-import com.rchyn.prosa.domain.model.stories.Story
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.convertTimeToLocal
 import com.rchyn.prosa.utils.getLocationName
 import com.rchyn.prosa.utils.hide
