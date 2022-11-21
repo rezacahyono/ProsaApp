@@ -1,19 +1,24 @@
 package com.rchyn.prosa.ui.fragments.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.rchyn.prosa.data.toStoryEntity
 import com.rchyn.prosa.data.repository.stories.StoriesRepository
+import com.rchyn.prosa.data.toStoryEntity
 import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.*
 import com.rchyn.prosa.utils.Utilities.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.*
-import org.junit.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 
 
 @OptIn(ExperimentalCoroutinesApi::class)

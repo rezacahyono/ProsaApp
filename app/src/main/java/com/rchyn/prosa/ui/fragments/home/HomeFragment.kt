@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
+import com.rchyn.prosa.R
 import com.rchyn.prosa.adapter.ListStoryAdapter
 import com.rchyn.prosa.adapter.LoadingStateAdapter
 import com.rchyn.prosa.databinding.FragmentHomeBinding
@@ -45,8 +48,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         listStoryAdapter = ListStoryAdapter(
-            onClickItem = { story ->
-                navigateToDetailStory(story = story)
+            onClickItem = { story, position ->
+                navigateToDetailStory(story = story, position)
             },
             onClickItemFavorite = { story ->
                 homeViewModel.setStoryFavorite(story)
@@ -98,9 +101,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun navigateToDetailStory(story: Story) {
+    private fun navigateToDetailStory(story: Story, position: Int) {
+        val viewHolder: ListStoryAdapter.ListStoryViewHolder =
+            binding.recyclerStories.findViewHolderForAdapterPosition(position) as ListStoryAdapter.ListStoryViewHolder
+        val ivPhoto = viewHolder.itemView.findViewById<ShapeableImageView>(R.id.iv_photo)
+        val extras = FragmentNavigatorExtras(
+            ivPhoto to "iv_photo${story.id}"
+        )
         val direction = HomeFragmentDirections.actionHomeNavToDetailStoryNav(story)
-        findNavController().navigate(direction)
+        findNavController().navigate(direction, extras)
     }
 
     private fun navigateToMap() {

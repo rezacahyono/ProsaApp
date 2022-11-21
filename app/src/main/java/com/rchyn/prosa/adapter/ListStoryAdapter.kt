@@ -14,7 +14,7 @@ import com.rchyn.prosa.utils.convertTimeToLocal
 
 
 class ListStoryAdapter(
-    private val onClickItem: (story: Story) -> Unit,
+    private val onClickItem: (story: Story, position: Int) -> Unit,
     private val onClickItemFavorite: (story: Story) -> Unit
 ) : PagingDataAdapter<Story, ListStoryAdapter.ListStoryViewHolder>(DiffCallback) {
     private lateinit var context: Context
@@ -29,13 +29,17 @@ class ListStoryAdapter(
                     tvUserName.text = story.name
                     tvDate.text = story.date.convertTimeToLocal()
                 }
-                ivPhoto.load(story.photo) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_placeholder_image)
+
+                ivPhoto.apply {
+                    transitionName = "iv_photo${story.id}"
+                    load(story.photo) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_placeholder_image)
+                    }
                 }
 
                 root.setOnClickListener {
-                    onClickItem(story)
+                    onClickItem(story, bindingAdapterPosition)
                 }
 
                 btnFavorite.isChecked = story.isFavorite

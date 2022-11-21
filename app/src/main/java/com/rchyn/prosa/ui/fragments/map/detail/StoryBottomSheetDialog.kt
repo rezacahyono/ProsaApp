@@ -18,7 +18,6 @@ import com.rchyn.prosa.databinding.DialogBottomStoryBinding
 import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.convertTimeToLocal
 import com.rchyn.prosa.utils.getLocationName
-import com.rchyn.prosa.utils.hide
 import kotlinx.coroutines.launch
 
 class StoryBottomSheetDialog : BottomSheetDialogFragment() {
@@ -77,8 +76,6 @@ class StoryBottomSheetDialog : BottomSheetDialogFragment() {
                 tvLocation.isVisible = false
             }
             tvDescription.text = story.description
-
-            btnFavorite.hide()
 
             ivPhoto.load(story.photo) {
                 crossfade(true)

@@ -52,17 +52,6 @@
             app:strokeWidth="1dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <CheckBox
-            android:id="@+id/btn_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/button_icon_margin_size_item_row"
-            android:layout_marginBottom="@dimen/button_icon_margin_size_item_row"
-            android:background="@drawable/shape_bg_favorite"
-            android:button="@drawable/sl_favorite"
-            android:elevation="1.8dp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_photo"
-            app:layout_constraintEnd_toEndOf="@id/iv_photo" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_description"

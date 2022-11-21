@@ -17,13 +17,18 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.rchyn.prosa.R
 import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentMapBinding
 import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.ui.activities.MainActivity
-import com.rchyn.prosa.utils.*
+import com.rchyn.prosa.utils.UiText
+import com.rchyn.prosa.utils.isDarkThemeOn
+import com.rchyn.prosa.utils.resolveColorAttr
+import com.rchyn.prosa.utils.vectorToBitmap
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

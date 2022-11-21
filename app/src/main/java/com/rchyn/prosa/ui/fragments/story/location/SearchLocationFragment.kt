@@ -1,18 +1,15 @@
 package com.rchyn.prosa.ui.fragments.story.location
 
 import android.Manifest
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,12 +21,7 @@ import com.rchyn.prosa.databinding.FragmentSearchLocationBinding
 import com.rchyn.prosa.ui.activities.MainActivity
 import com.rchyn.prosa.ui.fragments.story.StoryViewModel
 import com.rchyn.prosa.utils.showSoftKeyboard
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import java.io.IOException
 
 
 class SearchLocationFragment : Fragment() {

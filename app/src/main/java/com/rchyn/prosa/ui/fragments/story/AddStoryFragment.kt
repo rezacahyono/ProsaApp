@@ -19,7 +19,8 @@ import com.rchyn.prosa.R
 import com.rchyn.prosa.components.LoadingDialog
 import com.rchyn.prosa.databinding.FragmentAddStoryBinding
 import com.rchyn.prosa.ui.activities.MainActivity
-import com.rchyn.prosa.utils.*
+import com.rchyn.prosa.utils.UiText
+import com.rchyn.prosa.utils.getLocationName
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File

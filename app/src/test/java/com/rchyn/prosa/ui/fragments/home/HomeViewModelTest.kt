@@ -8,10 +8,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.rchyn.prosa.adapter.ListStoryAdapter
-import com.rchyn.prosa.data.toStoryEntity
-import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.data.repository.stories.StoriesRepository
 import com.rchyn.prosa.data.repository.user.UserRepository
+import com.rchyn.prosa.data.toStoryEntity
+import com.rchyn.prosa.model.stories.Story
 import com.rchyn.prosa.utils.DataDummy
 import com.rchyn.prosa.utils.MainCoroutineRule
 import com.rchyn.prosa.utils.Utilities.whenever
@@ -20,7 +20,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

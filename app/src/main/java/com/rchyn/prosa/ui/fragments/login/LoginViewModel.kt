@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.rchyn.prosa.R
-import com.rchyn.prosa.model.user.User
 import com.rchyn.prosa.data.repository.user.UserRepository
+import com.rchyn.prosa.model.user.User
 import com.rchyn.prosa.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch

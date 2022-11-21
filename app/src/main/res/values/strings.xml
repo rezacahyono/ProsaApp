@@ -94,11 +94,10 @@
     <string name="description_board_two">Prosa is made to simple and gorgeous by following the guide from the UI materials.</string>
     <string name="next">Next</string>
     <string name="first" translatable="false">first</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="map">map</string>
+
+    <string name="map" translatable="false">map</string>
     <string name="add_location">Add location</string>
     <string name="hint_search_location">Find location…</string>
-    <string name="get_my_location">Get my location</string>
+    <string name="get_my_location" translatable="false">Get my location</string>
 
 </resources>

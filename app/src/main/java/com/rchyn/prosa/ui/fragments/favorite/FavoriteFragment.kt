@@ -9,9 +9,11 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.rchyn.prosa.R
 import com.rchyn.prosa.adapter.ListStoryFavAdapter
 import com.rchyn.prosa.components.LoadingDialog
@@ -52,8 +54,8 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loadingDialog = LoadingDialog(requireContext())
 
-        listStoryFavAdapter = ListStoryFavAdapter(onClickItem = { story ->
-            navigateToDetailStory(story = story)
+        listStoryFavAdapter = ListStoryFavAdapter(onClickItem = { story, position ->
+            navigateToDetailStory(story = story, position)
         }, onClickItemFavorite = { story ->
             favoriteViewModel.setStoryFavorite(story = story)
         })
@@ -114,9 +116,15 @@ class FavoriteFragment : Fragment() {
         binding.layoutState.root.run { if (visibility) show() else hide() }
     }
 
-    private fun navigateToDetailStory(story: Story) {
+    private fun navigateToDetailStory(story: Story, position: Int) {
+        val viewHolder: ListStoryFavAdapter.ListStoryFavViewHolder =
+            binding.recyclerStoriesFav.findViewHolderForAdapterPosition(position) as ListStoryFavAdapter.ListStoryFavViewHolder
+        val ivPhoto = viewHolder.itemView.findViewById<ShapeableImageView>(R.id.iv_photo)
+        val extras = FragmentNavigatorExtras(
+            ivPhoto to "iv_photo${story.id}"
+        )
         val direction = FavoriteFragmentDirections.actionFavoriteNavToDetailStoryNav(story)
-        findNavController().navigate(direction)
+        findNavController().navigate(direction, extras)
     }
 
     override fun onDestroyView() {

@@ -3,7 +3,6 @@ package com.rchyn.prosa.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.dataStore
 import androidx.datastore.dataStoreFile
 import androidx.room.Room
 import com.rchyn.prosa.BuildConfig
@@ -17,13 +16,13 @@ import com.rchyn.prosa.data.remote.data_source.place.PlaceRemoteDataSource
 import com.rchyn.prosa.data.remote.data_source.stories.StoriesRemoteDataSource
 import com.rchyn.prosa.data.remote.retrofit.PlaceApi
 import com.rchyn.prosa.data.remote.retrofit.StoryApi
+import com.rchyn.prosa.data.repository.place.PlaceRepository
 import com.rchyn.prosa.data.repository.place.PlaceRepositoryImpl
+import com.rchyn.prosa.data.repository.stories.StoriesRepository
 import com.rchyn.prosa.data.repository.stories.StoriesRepositoryImpl
+import com.rchyn.prosa.data.repository.user.UserRepository
 import com.rchyn.prosa.data.repository.user.UserRepositoryImpl
 import com.rchyn.prosa.model.user.User
-import com.rchyn.prosa.data.repository.place.PlaceRepository
-import com.rchyn.prosa.data.repository.stories.StoriesRepository
-import com.rchyn.prosa.data.repository.user.UserRepository
 import com.rchyn.prosa.utils.Constant
 import com.rchyn.prosa.utils.Constant.STORY_DB
 import com.rchyn.prosa.utils.Constant.USER_PREF
@@ -122,10 +121,6 @@ object AppModule {
         )
     }
 
-    @Singleton
-    @Provides
-    fun provideUserPrefDataStore(userPrefSerializer: UserPrefDataStore.UserPrefSerializer) =
-        dataStore(USER_PREF, userPrefSerializer)
 
     @Singleton
     @Provides

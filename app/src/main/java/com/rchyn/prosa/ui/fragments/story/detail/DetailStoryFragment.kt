@@ -1,6 +1,5 @@
 package com.rchyn.prosa.ui.fragments.story.detail
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import coil.load
 import com.rchyn.prosa.R
 import com.rchyn.prosa.databinding.FragmentDetailStoryBinding
@@ -33,6 +33,12 @@ class DetailStoryFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
 
     private val args: DetailStoryFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,9 +88,12 @@ class DetailStoryFragment : Fragment() {
                     homeViewModel.setStoryFavorite(story)
                 }
             }
-            ivPhoto.load(story.photo) {
-                crossfade(true)
-                placeholder(R.drawable.ic_placeholder_image)
+            ivPhoto.apply {
+                transitionName = "iv_photo${story.id}"
+                load(story.photo) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_placeholder_image)
+                }
             }
         }
     }
